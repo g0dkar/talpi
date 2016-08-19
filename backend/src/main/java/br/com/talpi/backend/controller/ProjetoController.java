@@ -1,5 +1,7 @@
 package br.com.talpi.backend.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -45,6 +47,14 @@ public class ProjetoController {
 	
 	private Projeto get(final Long id) {
 		return (Projeto) ps.createQuery("FROM Projeto WHERE criador = :criador AND id = :id").setParameter("criador", usuarioLogado.get().getId()).setParameter("id", id).getSingleResult();
+	}
+	
+	@Get({ "/projetos", "/projetos/{pagina:\\d+}", "/projetos/{pagina:\\d+}/{itens:\\d+}" })
+	public void projetos(final Integer pagina, final Integer itens) {
+		final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 10;
+		final int offset = pagina == null ? 0 : pagina * resultados;
+		final List<Projeto> projetos = ps.createQuery("FROM Projeto WHERE criador = :criador").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get().getId()).getResultList();
+		result.use(Results.json()).withoutRoot().from(projetos).serialize();
 	}
 	
 	@Get("/projeto/{id:\\d+}")
