@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,8 +49,7 @@ public class Requisito implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private HistoricoRequisito ultimaAlteracao;
 	
-	@NotNull
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Estado estado;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

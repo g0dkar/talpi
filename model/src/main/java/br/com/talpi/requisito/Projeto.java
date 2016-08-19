@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,8 +40,7 @@ public class Projeto implements Serializable {
 	@Column(nullable = false)
 	private Instant timestampCriacao;
 	
-	@NotNull
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Estado estado;
 	
 	@NotBlank
@@ -99,5 +99,29 @@ public class Projeto implements Serializable {
 
 	public void setCongelado(final boolean congelado) {
 		this.congelado = congelado;
+	}
+
+	public List<Requisito> getRequisitos() {
+		return requisitos;
+	}
+
+	public void setRequisitos(final List<Requisito> requisitos) {
+		this.requisitos = requisitos;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(final Estado estado) {
+		this.estado = estado;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(final String descricao) {
+		this.descricao = descricao;
 	}
 }
