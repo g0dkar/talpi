@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 
 import br.com.caelum.vraptor.Consumes;
@@ -69,6 +70,17 @@ public class UsuarioController {
 			if (usuario.getId() != null && usuarioLogado.get() != null) {
 				// Evita que um usuário edite outro via injeção de ID
 				usuario.setId(usuarioLogado.get().getId());
+				usuario.setTimestampCriacao(usuarioLogado.get().getTimestampCriacao());
+				
+				if (usuario.getSenha() != null) {
+					usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
+				}
+				else {
+					usuario.setSenha(usuarioLogado.get().getSenha());
+				}
+			}
+			else if (usuario.getId() == null) {
+				usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
 			}
 			else {
 				validator.add(new I18nMessage("error", "erros.semAutorizacao"));
@@ -90,7 +102,6 @@ public class UsuarioController {
 				
 				try {
 					if (usuario.getId() == null) {
-//						usuario.setSenha();
 						ps.persist(usuario);
 					}
 					else {
@@ -108,5 +119,40 @@ public class UsuarioController {
 		if (validator.hasErrors()) {
 			validator.onErrorUse(Results.json()).withoutRoot().from(validator.getErrors()).serialize();
 		}
+	}
+	
+	@Transactional
+	@Post("/login")
+	@Consumes({ "application/json", "application/x-www-form-urlencoded" })
+	public void login(final String email, final String senha) {
+		if (email != null && email.trim().length() > 0 && senha != null && senha.trim().length() > 0) {
+			final Usuario usuario = (Usuario) ps.createQuery("FROM Usuario WHERE LOWER(email) = LOWER(:email)").setParameter("email", email.trim()).getSingleResult();
+			
+			if (usuario != null) {
+				if (BCrypt.checkpw(senha, usuario.getSenha())) {
+					usuarioLogado.set(usuario);
+					ps.createQuery("UPDATE Usuario SET timestampUltimoLogin = NOW() WHERE id = :id").setParameter("id", usuario.getId()).executeUpdate();
+					result.forwardTo(this).perfil((Long) null);
+				}
+				else {
+					validator.add(new I18nMessage("error", "erro.login.usuarioNaoExiste"));
+				}
+			}
+			else {
+				validator.add(new I18nMessage("error", "erro.login.usuarioNaoExiste"));
+			}
+		}
+		else {
+			validator.add(new I18nMessage("error", "erro.login.usuarioNaoExiste"));
+		}
+		
+		if (validator.hasErrors()) {
+			validator.onErrorUse(Results.json()).withoutRoot().from(validator.getErrors()).serialize();
+		}
+	}
+	
+	public void logout() {
+		usuarioLogado.set(null);
+		result.nothing();
 	}
 }

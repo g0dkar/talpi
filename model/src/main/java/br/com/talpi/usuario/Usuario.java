@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -31,11 +32,14 @@ public class Usuario implements Serializable {
 	private String email;
 	
 	@NotBlank
-	@Column(nullable = false, length = 96)
+	@Size(min = 6)
+	@Column(nullable = false, length = 60)
 	private String senha;
 	
 	@Column(nullable = false)
 	private Instant timestampCriacao;
+	
+	private Instant timestampUltimoLogin;
 	
 	@Column(nullable = false)
 	private boolean premium;
@@ -91,5 +95,13 @@ public class Usuario implements Serializable {
 
 	public void setPremium(final boolean premium) {
 		this.premium = premium;
+	}
+
+	public Instant getTimestampUltimoLogin() {
+		return timestampUltimoLogin;
+	}
+
+	public void setTimestampUltimoLogin(final Instant timestampUltimoLogin) {
+		this.timestampUltimoLogin = timestampUltimoLogin;
 	}
 }
