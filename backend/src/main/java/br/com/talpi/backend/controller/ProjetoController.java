@@ -19,6 +19,8 @@ import br.com.caelum.vraptor.view.Results;
 import br.com.talpi.estado.Estado;
 import br.com.talpi.estado.EstadoEnum;
 import br.com.talpi.requisito.Projeto;
+import br.com.talpi.usuario.PapelUsuarioProjetoEnum;
+import br.com.talpi.usuario.UsuarioProjeto;
 import br.com.talpi.util.PersistenceService;
 import br.com.talpi.util.RequerAutenticacao;
 import br.com.talpi.util.UsuarioLogado;
@@ -49,7 +51,7 @@ public class ProjetoController {
 		return (Projeto) ps.createQuery("FROM Projeto WHERE criador = :criador AND id = :id").setParameter("criador", usuarioLogado.get().getId()).setParameter("id", id).getSingleResult();
 	}
 	
-	@Get({ "/projetos", "/projetos/{pagina:\\d+}", "/projetos/{pagina:\\d+}/{itens:\\d+}" })
+	@Get({ "/lista", "/lista/{pagina:\\d+}", "/lista/{pagina:\\d+}/{itens:\\d+}" })
 	public void projetos(final Integer pagina, final Integer itens) {
 		final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 10;
 		final int offset = pagina == null ? 0 : pagina * resultados;
@@ -57,7 +59,7 @@ public class ProjetoController {
 		result.use(Results.json()).withoutRoot().from(projetos).serialize();
 	}
 	
-	@Get("/projeto/{id:\\d+}")
+	@Get("/{id:\\d+}")
 	public void projeto(final Long id) {
 		final Projeto projeto = get(id);
 		
@@ -70,9 +72,9 @@ public class ProjetoController {
 	}
 	
 	@Transactional
-	@Post("/projeto")
+	@Post("/editar")
 	@Consumes({ "application/json", "application/x-www-form-urlencoded" })
-	public void perfil(final Projeto projeto) {
+	public void projeto(final Projeto projeto) {
 		if (projeto.getId() == null) {
 			if (!usuarioLogado.get().isPremium()) {
 				final int projetos = ((Number) ps.createQuery("SELECT count(*) FROM Projeto WHERE criador = :criador").setParameter("criador", usuarioLogado.get().getId()).getSingleResult()).intValue();
@@ -95,6 +97,14 @@ public class ProjetoController {
 				
 				try {
 					ps.persist(projeto);
+					
+					final UsuarioProjeto usuarioProjeto = new UsuarioProjeto();
+					usuarioProjeto.setCriador(usuarioLogado.get());
+					usuarioProjeto.setPapel(PapelUsuarioProjetoEnum.PM);
+					usuarioProjeto.setProjeto(projeto);
+					usuarioProjeto.setUsuario(usuarioLogado.get());
+					ps.persist(usuarioProjeto);
+					
 					result.use(Results.json()).withoutRoot().from(projeto).serialize();
 				} catch (final Exception e) {
 					log.error("Erro ao salvar Projeto", e);
