@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 			src: "dev",			// Dev files
 			dest: "dist",		// Dist files
 		},
+		
 		concat: {
 			options: {
 				sourceMap: true
@@ -19,7 +20,7 @@ module.exports = function(grunt) {
 				src: [
 					"<%= path.src %>/bower_components/angular/angular.js",
 					"<%= path.src %>/bower_components/angular-animate/angular-animate.js",
-					"<%= path.src %>/bower_components/angular-sanitizer/angular-sanitize.js",
+					"<%= path.src %>/bower_components/angular-sanitize/angular-sanitize.js",
 					"<%= path.src %>/bower_components/angular-ui-router/release/angular-ui-router.js",
 					"<%= path.src %>/bower_components/angular-loading-bar/build/loading-bar.js",
 					"<%= path.src %>/bower_components/moment/moment.js",
@@ -77,15 +78,25 @@ module.exports = function(grunt) {
 			},
 			css: {
 				files: "<%= path.src %>/talpi.css",
-				tasks: ["concat:css", "cssnano"],
+				tasks: ["concat:css", "cssnano"]
 			},
 			img: {
 				files: "<%= path.src %>/img/**/*.{png,jpg,gif}",
-				tasks: ["imagemin"],
+				tasks: ["imagemin"]
+			}
+		},
+		
+		connect: {
+			server: {
+				options: {
+					port: 8000,
+//					keepalive: true,
+					base: "./"
+				}
 			}
 		}
 	});
 
 	// 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-	grunt.registerTask("default", ["concat:js", "uglify", "concat:css", "cssnano", "imagemin", "watch"]);
+	grunt.registerTask("default", ["concat:js", "uglify", "concat:css", "cssnano", "imagemin", "connect", "watch"]);
 };

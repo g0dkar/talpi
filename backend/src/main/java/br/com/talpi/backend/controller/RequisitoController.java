@@ -3,6 +3,8 @@ package br.com.talpi.backend.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
@@ -28,15 +30,20 @@ public class RequisitoController {
 	private final UsuarioLogado usuarioLogado;
 	
 	/** @deprecated CDI */ @Deprecated
-	RequisitoController() { this(null, null, null, null, null); }
+	RequisitoController() { this(null, null, null, null, null, null, null); }
 	
 	@Inject
-	public RequisitoController(final Logger log, final Result result, final Validator validator, final PersistenceService ps, final UsuarioLogado usuarioLogado) {
+	public RequisitoController(final Logger log, final Result result, final Validator validator, final PersistenceService ps, final UsuarioLogado usuarioLogado, final HttpServletRequest request, final HttpServletResponse response) {
 		this.log = log;
 		this.result = result;
 		this.validator = validator;
 		this.ps = ps;
 		this.usuarioLogado = usuarioLogado;
+
+		if (response != null) {
+			response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+			response.setHeader("Access-Control-Allow-Credentials", "true");
+		}
 	}
 	
 	private Requisito get(final Long projeto, final Long id) {

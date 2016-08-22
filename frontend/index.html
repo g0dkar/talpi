@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-br" ng-app="talpi">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Talpi</title>
+<meta name="description" content="Talpi é uma ferramenta de gerenciamento de projetos">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link rel="stylesheet" href="dist/talpi.css">
+<!--script src="dev/js/talpi-all.js"></script-->
+<script src="dist/talpi.js"></script>
+</head>
+<body ng-class="{'login':doLogin}">
+	<nav class="navbar navbar-default navbar-talpi navbar-fixed-top" ng-hide="doLogin">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" ui-sref="main">Talpi</a>
+			</div>
+
+			<ul class="nav navbar-nav">
+				<li ui-sref-active="active"><a ui-sref="projetos">Projetos</a></li>
+				<li ui-sref-active="active"><a ui-sref="requisitos">Requisitos</a></li>
+				<li ui-sref-active="active"><a ui-sref="tarefas">Tarefas</a></li>
+				<li ui-sref-active="active"><a ui-sref="membros">Membros</a></li>
+				<li ui-sref-active="active"><a ui-sref="relatorios">Relatórios</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a ui-sref="logout">Sair</a></li>
+			</ul>
+		</div>
+	</nav>
+		
+	<div ui-view></div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package br.com.talpi.backend.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
@@ -30,15 +31,30 @@ public class UsuarioController {
 	private final UsuarioLogado usuarioLogado;
 	
 	/** @deprecated CDI */ @Deprecated
-	UsuarioController() { this(null, null, null, null, null); }
+	UsuarioController() { this(null, null, null, null, null, null, null); }
 	
 	@Inject
-	public UsuarioController(final Logger log, final Result result, final Validator validator, final PersistenceService ps, final UsuarioLogado usuarioLogado) {
+	public UsuarioController(final Logger log, final Result result, final Validator validator, final PersistenceService ps, final UsuarioLogado usuarioLogado, final HttpServletRequest request, final HttpServletResponse response) {
 		this.log = log;
 		this.result = result;
 		this.validator = validator;
 		this.ps = ps;
 		this.usuarioLogado = usuarioLogado;
+		
+		if (response != null) {
+			response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+			response.setHeader("Access-Control-Allow-Credentials", "true");
+		}
+	}
+	
+	@Get("/check")
+	public void checarLogin() {
+		if (usuarioLogado.get() != null) {
+			result.use(Results.http()).body(String.valueOf(usuarioLogado.get().getId()));
+		}
+		else {
+			result.notFound();
+		}
 	}
 	
 	@Get({ "/perfil", "/perfil/{id:\\d+}" })

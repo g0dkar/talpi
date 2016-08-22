@@ -14,6 +14,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import br.com.caelum.vraptor.serialization.SkipSerialization;
+
 @Entity
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -34,11 +36,14 @@ public class Usuario implements Serializable {
 	@NotBlank
 	@Size(min = 6)
 	@Column(nullable = false, length = 60)
+	@SkipSerialization
 	private String senha;
 	
+	@SkipSerialization
 	@Column(nullable = false)
 	private Instant timestampCriacao;
 	
+	@SkipSerialization
 	private Instant timestampUltimoLogin;
 	
 	@Column(nullable = false)

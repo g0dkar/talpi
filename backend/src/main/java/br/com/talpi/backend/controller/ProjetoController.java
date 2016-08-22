@@ -3,6 +3,8 @@ package br.com.talpi.backend.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -36,15 +38,20 @@ public class ProjetoController {
 	private final UsuarioLogado usuarioLogado;
 	
 	/** @deprecated CDI */ @Deprecated
-	ProjetoController() { this(null, null, null, null, null); }
+	ProjetoController() { this(null, null, null, null, null, null, null); }
 	
 	@Inject
-	public ProjetoController(final Logger log, final Result result, final Validator validator, final PersistenceService ps, final UsuarioLogado usuarioLogado) {
+	public ProjetoController(final Logger log, final Result result, final Validator validator, final PersistenceService ps, final UsuarioLogado usuarioLogado, final HttpServletRequest request, final HttpServletResponse response) {
 		this.log = log;
 		this.result = result;
 		this.validator = validator;
 		this.ps = ps;
 		this.usuarioLogado = usuarioLogado;
+
+		if (response != null) {
+			response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+			response.setHeader("Access-Control-Allow-Credentials", "true");
+		}
 	}
 	
 	private Projeto get(final Long id) {
@@ -55,7 +62,7 @@ public class ProjetoController {
 	public void projetos(final Integer pagina, final Integer itens) {
 		final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 10;
 		final int offset = pagina == null ? 0 : pagina * resultados;
-		final List<Projeto> projetos = ps.createQuery("FROM Projeto WHERE criador = :criador").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get().getId()).getResultList();
+		final List<Projeto> projetos = ps.createQuery("FROM Projeto WHERE criador = :criador").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get()).getResultList();
 		result.use(Results.json()).withoutRoot().from(projetos).serialize();
 	}
 	

@@ -6755,4 +6755,83 @@ button.close {
   }
 }
 
+body {
+	background: #fff3e0;
+	color: #000;
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	padding-top: 55px;
+}
+body.login {
+	padding-top: 0;
+	background: #fff3e0 url(img/talpi-bg.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+.card {
+	background: #fff;
+	padding: 15px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.card.hover:hover {
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.card-title {
+	margin-top: 0;
+	padding-top: 0;
+	font-weight: 300;
+}
+.card-actions {
+	text-align: right;
+	padding-top: 15px;
+}
+.card-actions .btn {
+	border: none;
+	border-radius: 0;
+}
+.login-box {
+	margin: auto;
+	max-width: 300px;
+}
+.login-box hr {
+	margin: 15px -15px;
+}
+.login-box .card-actions {
+	padding: 0;
+}
+.loader {
+	margin: auto;
+	font-size: 10px;
+	position: relative;
+	overflow: hidden;
+	text-indent: -200px;
+	border-top: 8px solid rgba(255, 152, 0, 0.2);
+	border-right: 8px solid rgba(255, 152, 0, 0.2);
+	border-bottom: 8px solid rgba(255, 152, 0, 0.2);
+	border-left: 8px solid #ff9800;
+	-webkit-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	transform: translateZ(0);
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	-webkit-animation: load8 1s infinite ease;
+	animation: load8 1s infinite ease;
+}
+@-webkit-keyframes load8 {
+	0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@keyframes load8 {
+	0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+.table {
+	margin-bottom: 0;
+}
 /*# sourceMappingURL=talpi-all.css.map */
