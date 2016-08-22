@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		path: {
 			src: "dev",			// Dev files
-			dest: "res",		// Dist files
+			dest: "dist",		// Dist files
 		},
 		concat: {
 			options: {
@@ -18,19 +18,20 @@ module.exports = function(grunt) {
 			js: {
 				src: [
 					"<%= path.src %>/bower_components/angular/angular.js",
-					"<%= path.src %>/bower_components/angular/angular-animate.js",
-					"<%= path.src %>/bower_components/angular/angular-sanitize.js",
-					"<%= path.src %>/bower_components/angular/angular-ui-router.js",
-					"<%= path.src %>/bower_components/angular/loading-bar.js",
-					"<%= path.src %>/bower_components/angular/moment-with-locales.js",
+					"<%= path.src %>/bower_components/angular-animate/angular-animate.js",
+					"<%= path.src %>/bower_components/angular-sanitizer/angular-sanitize.js",
+					"<%= path.src %>/bower_components/angular-ui-router/release/angular-ui-router.js",
+					"<%= path.src %>/bower_components/angular-loading-bar/build/loading-bar.js",
+					"<%= path.src %>/bower_components/moment/moment.js",
+					"<%= path.src %>/bower_components/moment/locale/br.js",
 					"<%= path.src %>/talpi.js"
 				],
 				dest: "<%= path.src %>/js/talpi-all.js",
 			},
 			css: {
 				src: [
-					"<%= path.src %>/css/deps/bootstrap.css",
-					"<%= path.src %>/css/talpi.css"
+					"<%= path.src %>/bower_components/bootstrap/dist/css/bootstrap.css",
+					"<%= path.src %>/talpi.css"
 				],
 				dest: "<%= path.src %>/css/talpi-all.css",
 			}
@@ -45,7 +46,7 @@ module.exports = function(grunt) {
 			},
 			dev: {
 				files: {
-					"<%= path.dest %>/js/talpi.js": ["<%= path.src %>/js/talpi-all.js"]
+					"<%= path.dest %>/talpi.js": ["<%= path.src %>/js/talpi-all.js"]
 				}
 			}
 		},
@@ -53,7 +54,7 @@ module.exports = function(grunt) {
 		cssnano: {
 			dist: {
 				files: {
-					"<%= path.dest %>/css/talpi-all.css": "<%= path.src %>/css/talpi.css"
+					"<%= path.dest %>/talpi.css": "<%= path.src %>/css/talpi-all.css"
 				}
 			}
 		},
@@ -71,11 +72,11 @@ module.exports = function(grunt) {
 		
 		watch: {
 			js: {
-				files: "<%= path.src %>/js/**/*.js",
+				files: "<%= path.src %>/talpi.js",
 				tasks: ["concat:js", "uglify"]
 			},
 			css: {
-				files: "<%= path.src %>/css/**/*.css",
+				files: "<%= path.src %>/talpi.css",
 				tasks: ["concat:css", "cssnano"],
 			},
 			img: {
