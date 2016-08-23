@@ -92,7 +92,7 @@
 						$window.alert("Por favor, verifique os campos e tente novamente.");
 					}
 					else {
-						$state.go("projeto_detalhe", { id: response.data.id });
+						$state.go("projeto_dashboard", { id: response.data.id });
 					}
 				});
 			}
@@ -102,11 +102,35 @@
 		}
 	}]);
 	
+	app.controller("ProjetosNovoController", ["$scope", "$http", "$state", "$window", function ($scope, $http, $state, $window) {
+		$scope.projeto = { congelado: false };
+		$scope.novoProjeto = function (form, event) {
+			event.preventDefault();
+			
+			if (form.$valid) {
+				$http.post(endpoint + "/api/projeto/editar", $scope.projeto).then(function (response) {
+					if (angular.isArray(response.data)) {
+						$window.alert("Por favor, verifique os campos e tente novamente.");
+					}
+					else {
+						$state.go("projetos_dashboard", { id: response.data.id });
+					}
+				});
+			}
+			else {
+				$window.alert("Por favor, preencha todos os campos obrigatórios!");
+			}
+		}
+	}]);
+	
+	app.controller("ProjetosDashboardController", ["$scope", "$http", "$state", "$window", "projeto", function ($scope, $http, $state, $window, projeto) {
+		$scope.projeto = projeto;
+	}]);
+	
 	app.run(["$rootScope", "$state", function ($rootScope, $state) {
 		$rootScope.doLogin = false;
 		$rootScope.setLogin = function (val) { $rootScope.doLogin = val; };
 		$rootScope.$on("$stateChangeStart", function (event, toState, toStateParams) {
-			console.log("$stateChangeStart ->", arguments);
 			if (toState.name != "login" && !loggedUser) {
 				console.log(event);
 				event.preventDefault();
@@ -117,35 +141,7 @@
 		});
 	}]);
 	
-	app.factory("loginInterceptor", ["$q", function ($q) {
-		return {
-			request: function (config) {
-				return $q(function (resolve, reject) {
-					// Checa a cada 5min
-					if (checkLogin && (!loggedUser || (loggedUser.id > 0 && Date.now() - lastCheck >= 300000))) {
-						$http.get(endpoint + "/api/usuario/check").then(function (response) {
-							if (response.data === loggedUser.id) {
-								lastCheck = Date.now();
-								resolve(config);
-							}
-							else {
-								reject(config);
-							}
-						}, function () {
-							reject(config);
-						});
-					}
-					else {
-						resolve(config);
-					}
-				});
-			}
-		};
-	}]);
-	
 	app.config(["$httpProvider", "$locationProvider", "$compileProvider", "$urlRouterProvider", "$urlMatcherFactoryProvider", "$stateProvider", function ($httpProvider, $locationProvider, $compileProvider, $urlRouterProvider, $urlMatcherFactoryProvider, $stateProvider) {
-		// Configuring the $httpProvider to use our paramsSerializer, send forms like it should and adding an error interceptor
-		$httpProvider.interceptors.push("loginInterceptor");
 		$httpProvider.defaults.withCredentials = true;
 		
 		// Setting HTML 5 mode (bretty urls)
@@ -185,7 +181,25 @@
 			url: "/projetos/novo",
 			templateUrl: "pages/projetos_novo.html",
 			controller: "ProjetosNovoController"
-		}) 
+		})
+		.state("projetos_dashboard", {
+			url: "/projetos/{id:\\d+}",
+			templateUrl: "pages/projetos_dashboard.html",
+			controller: "ProjetosDashboardController",
+			resolve: {
+				projeto: ["$q", "$http", "$state", "$stateParams", function ($q, $http, $state, $stateParams) {
+					return $q(function (resolve, reject) {
+						$http.get(endpoint + "/api/projeto/" + $stateParams.id).then(function (response) {
+							resolve(response.data);
+						},
+						function (data) {
+							$state.go("projetos");
+							reject(response.data);
+						});
+					});
+				}]
+			}
+		})
 //		.state("admin.quiz", {
 //			url: "/quiz",
 //			"abstract": true,

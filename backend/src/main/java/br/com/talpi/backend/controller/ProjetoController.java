@@ -71,7 +71,7 @@ public class ProjetoController {
 		final Projeto projeto = get(id);
 		
 		if (projeto != null) {
-			result.use(Results.json()).withoutRoot().from(projeto).serialize();
+			result.use(Results.json()).withoutRoot().from(projeto).include("estado").serialize();
 		}
 		else {
 			result.notFound();
@@ -83,8 +83,10 @@ public class ProjetoController {
 	@Consumes({ "application/json", "application/x-www-form-urlencoded" })
 	public void projeto(final Projeto projeto) {
 		if (projeto.getId() == null) {
+			projeto.setCriador(usuarioLogado.get());
+			
 			if (!usuarioLogado.get().isPremium()) {
-				final int projetos = ((Number) ps.createQuery("SELECT count(*) FROM Projeto WHERE criador = :criador").setParameter("criador", usuarioLogado.get().getId()).getSingleResult()).intValue();
+				final int projetos = ((Number) ps.createQuery("SELECT count(*) FROM Projeto WHERE criador = :criador").setParameter("criador", usuarioLogado.get()).getSingleResult()).intValue();
 				
 				if (projetos >= 5) {
 					validator.add(new I18nMessage("error", "erro.maisDeCincoProjetos"));
@@ -112,7 +114,7 @@ public class ProjetoController {
 					usuarioProjeto.setUsuario(usuarioLogado.get());
 					ps.persist(usuarioProjeto);
 					
-					result.use(Results.json()).withoutRoot().from(projeto).serialize();
+					result.use(Results.json()).withoutRoot().from(projeto).include("estado").serialize();
 				} catch (final Exception e) {
 					log.error("Erro ao salvar Projeto", e);
 					validator.add(new I18nMessage("error", "erro.projeto.persistir", e.getClass().getSimpleName()));
@@ -128,7 +130,7 @@ public class ProjetoController {
 				
 				if (!validator.validate(db).hasErrors()) {
 					final Projeto salvo = ps.merge(db);
-					result.use(Results.json()).withoutRoot().from(salvo).serialize();
+					result.use(Results.json()).withoutRoot().from(salvo).include("estado").serialize();
 				}
 			}
 			else {

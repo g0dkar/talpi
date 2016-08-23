@@ -46,6 +46,7 @@ public class Estado implements Serializable {
 
 	public void setEstado(final EstadoEnum estado) {
 		setEstadoAnterior(this.estado);
+		timestamp = Instant.now();
 		this.estado = estado;
 	}
 

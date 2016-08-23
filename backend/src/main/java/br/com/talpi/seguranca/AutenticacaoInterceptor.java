@@ -6,10 +6,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import br.com.caelum.vraptor.Accepts;
 import br.com.caelum.vraptor.AroundCall;
 import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.interceptor.AcceptsWithAnnotations;
+import br.com.caelum.vraptor.controller.ControllerMethod;
 import br.com.caelum.vraptor.interceptor.SimpleInterceptorStack;
 import br.com.caelum.vraptor.view.Results;
 import br.com.talpi.util.RequerAutenticacao;
@@ -22,7 +23,6 @@ import br.com.talpi.util.UsuarioLogado;
  */
 @Intercepts
 @RequestScoped
-@AcceptsWithAnnotations(RequerAutenticacao.class)
 public class AutenticacaoInterceptor {
 	private final Logger log;
 	private final Result result;
@@ -47,5 +47,10 @@ public class AutenticacaoInterceptor {
 		else {
 			stack.next();
 		}
+	}
+	
+	@Accepts
+	public boolean accepts(final ControllerMethod method) {
+	    return method.containsAnnotation(RequerAutenticacao.class) || method.getController().getType().isAnnotationPresent(RequerAutenticacao.class);
 	}
 }
