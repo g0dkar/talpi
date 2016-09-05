@@ -18,9 +18,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.talpi.estado.Estado;
 import br.com.talpi.usuario.Usuario;
+import br.com.talpi.usuario.UsuarioProjeto;
 
 @Entity
 public class Projeto implements Serializable {
@@ -55,6 +57,11 @@ public class Projeto implements Serializable {
 	
 	@Column(nullable = false)
 	private boolean congelado;
+	
+	@NotEmpty
+	@Size(min = 1)
+	@OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<UsuarioProjeto> usuarios;
 	
 	@PrePersist
 	public void beforeSave() {
@@ -123,5 +130,13 @@ public class Projeto implements Serializable {
 
 	public void setDescricao(final String descricao) {
 		this.descricao = descricao;
+	}
+
+	public List<UsuarioProjeto> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(final List<UsuarioProjeto> usuarios) {
+		this.usuarios = usuarios;
 	}
 }
