@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -36,10 +37,12 @@ public class UsuarioProjeto implements Serializable {
 	private Instant timestampCriacao;
 	
 	@NotNull
+	@JoinColumn(name = "usuario_id")
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Usuario usuario;
 	
 	@NotNull
+	@JoinColumn(name = "projeto_id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Projeto projeto;
 	
