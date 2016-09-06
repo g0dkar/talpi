@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @Entity
 public class Comentarios implements Serializable {
@@ -26,7 +27,8 @@ public class Comentarios implements Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Comentario melhorComentario;
-
+	
+	@OrderBy("pai DESC, timestamp DESC")
 	@OneToMany(mappedBy = "thread", orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Comentario> comentarios;
 	
