@@ -1,28 +1,37 @@
 package br.com.talpi.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 
+import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
+import br.com.talpi.requisito.HistoricoRequisito;
 import br.com.talpi.requisito.Projeto;
 import br.com.talpi.requisito.Requisito;
+import br.com.talpi.social.Comentarios;
+import br.com.talpi.social.Votos;
 import br.com.talpi.usuario.PapelUsuarioProjetoEnum;
+import br.com.talpi.usuario.UsuarioProjeto;
 import br.com.talpi.util.PersistenceService;
 import br.com.talpi.util.RequerAutenticacao;
 import br.com.talpi.util.UsuarioLogado;
 
 @Controller
-@Path("/requisito/{projeto:\\d+}")
+@Path("/requisito/{pid:\\d+}")
 @RequerAutenticacao
 public class RequisitoController {
 	private final Logger log;
@@ -46,6 +55,14 @@ public class RequisitoController {
 			response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 			response.setHeader("Access-Control-Allow-Credentials", "true");
 		}
+	}
+	
+	/**
+	 * Simplifica o envio de um {@link Requisito} como resposta a uma requisição
+	 * @param requisito Requsito a ser enviado
+	 */
+	private void respostaRequisito(final Requisito requisito) {
+		result.use(Results.json()).withoutRoot().from(requisito).include("criador", "estado", "comentarios", "votos").serialize();
 	}
 	
 	/**
@@ -79,6 +96,15 @@ public class RequisitoController {
 		return (Requisito) ps.createQuery("FROM Requisito WHERE projeto = :projeto AND id = :id").setParameter("projeto", projeto).setParameter("id", id).getSingleResult();
 	}
 	
+	/**
+	 * <p><code>GET /requisito/{pid}/lista, GET /requisito/{pid}/lista/{pagina}, GET /requisito/{pid}/lista/{pagina}/{itens}</code>
+	 * 
+	 * <p>Responde com uma listagem dos requisitos de um projeto
+	 * 
+	 * @param pid ID do Projeto
+	 * @param pagina Qual página de resultados o usuário quer
+	 * @param itens Quantidade de itens por página
+	 */
 	@Get({ "/lista", "/lista/{pagina:\\d+}", "/lista/{pagina:\\d+}/{itens:\\d+}" })
 	public void requisitos(final Long pid, final Integer pagina, final Integer itens) {
 		final Projeto projeto = getProjeto(pid);
@@ -87,85 +113,125 @@ public class RequisitoController {
 			final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 20;
 			final int offset = pagina == null ? 0 : pagina * resultados;
 			final List<Requisito> requisitos = ps.createQuery("FROM Requisito WHERE projeto = :projeto").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get().getId()).getResultList();
-			result.use(Results.json()).withoutRoot().from(requisitos).include("votos", "comentarios").serialize();
+			result.use(Results.json()).withoutRoot().from(requisitos).include("votos").serialize();
 		}
 		else {
 			result.notFound();
 		}
 	}
 	
-//	@Get("/{id:\\d+}")
-//	public void projeto(final Long id) {
-//		final Projeto projeto = get(id);
-//
-//		if (projeto != null) {
-//			result.use(Results.json()).withoutRoot().from(projeto).serialize();
-//		}
-//		else {
-//			result.notFound();
-//		}
-//	}
-//
-//	@Transactional
-//	@Post("/editar")
-//	@Consumes({ "application/json", "application/x-www-form-urlencoded" })
-//	public void projeto(final Projeto projeto) {
-//		if (projeto.getId() == null) {
-//			if (!usuarioLogado.get().isPremium()) {
-//				final int projetos = ((Number) ps.createQuery("SELECT count(*) FROM Projeto WHERE criador = :criador").setParameter("criador", usuarioLogado.get().getId()).getSingleResult()).intValue();
-//
-//				if (projetos >= 5) {
-//					validator.add(new I18nMessage("error", "erro.maisDeCincoProjetos"));
-//				}
-//				else {
-//					validator.validate(projeto);
-//				}
-//			}
-//			else {
-//				validator.validate(projeto);
-//			}
-//
-//			if (!validator.hasErrors()) {
-//				projeto.setCriador(usuarioLogado.get());
-//				projeto.setEstado(new Estado());
-//				projeto.getEstado().setEstado(EstadoEnum.INICIADO);
-//
-//				try {
-//					ps.persist(projeto);
-//
-//					final UsuarioProjeto usuarioProjeto = new UsuarioProjeto();
-//					usuarioProjeto.setCriador(usuarioLogado.get());
-//					usuarioProjeto.setPapel(PapelUsuarioProjetoEnum.PM);
-//					usuarioProjeto.setProjeto(projeto);
-//					usuarioProjeto.setUsuario(usuarioLogado.get());
-//					ps.persist(usuarioProjeto);
-//
-//					result.use(Results.json()).withoutRoot().from(projeto).serialize();
-//				} catch (final Exception e) {
-//					log.error("Erro ao salvar Projeto", e);
-//					validator.add(new I18nMessage("error", "erro.projeto.persistir", e.getClass().getSimpleName()));
-//				}
-//			}
-//		}
-//		else {
-//			final Projeto db = get(projeto.getId());
-//			if (db != null) {
-//				db.setNome(projeto.getNome());
-//				db.setCongelado(projeto.isCongelado());
-//				db.setDescricao(projeto.getDescricao());
-//
-//				if (!validator.validate(db).hasErrors()) {
-//					final Projeto salvo = ps.merge(db);
-//					result.use(Results.json()).withoutRoot().from(salvo).serialize();
-//				}
-//			}
-//			else {
-//				validator.add(new I18nMessage("error", "erro.projeto.naoEncontrado", projeto.getNome()));
-//			}
-//		}
-//
-//		if (validator.hasErrors()) {
-//			validator.onErrorUse(Results.json()).withoutRoot().from(validator.getErrors()).serialize();
-//		}
-//	}
+	/**
+	 * <p><code>GET /requisito/{pid}/{id}</code>
+	 * 
+	 * <p>Retorna todas as informações de um requisito
+	 * 
+	 * @param pid ID do Projeto
+	 * @param id ID do Requisito (deve obrigatoriamente pertencer ao projeto especificado)
+	 */
+	@Get("/{id:\\d+}")
+	public void requisito(final Long pid, final Long id) {
+		final Projeto projeto = getProjeto(pid);
+		
+		if (projeto != null) {
+			final Requisito requisito = get(projeto, id);
+			
+			if (requisito != null) {
+				respostaRequisito(requisito);
+			}
+			else {
+				result.notFound();
+			}
+		}
+		else {
+			result.notFound();
+		}
+	}
+
+	@Transactional
+	@Post("/editar")
+	@Consumes({ "application/json", "application/x-www-form-urlencoded" })
+	public void editar(final Long pid, Requisito requisito) {
+		final Projeto projeto = getProjeto(pid);
+		
+		if (projeto != null) {
+			if (projeto.isCongelado()) {
+				validator.add(new I18nMessage("error", "erro.requisito.projetoCongelado"));
+			}
+			else {
+				final UsuarioProjeto up = getUsuarioProjetoAtual(projeto);
+				
+				if (up != null && up.getPapel().equals(PapelUsuarioProjetoEnum.PM)) {
+					if (requisito.getUltimaAlteracao() != null) {
+						requisito.getUltimaAlteracao().setRequisito(requisito);
+						requisito.getUltimaAlteracao().setId(null);
+						requisito.getUltimaAlteracao().setUsuario(up);
+					}
+					
+					// Novo
+					if (requisito.getId() == null) {
+						final List<HistoricoRequisito> historico = new ArrayList<>(1);
+						historico.add(requisito.getUltimaAlteracao());
+						
+						requisito.setProjeto(projeto);
+						requisito.setComentarios(new Comentarios());
+						requisito.setVotos(new Votos());
+						requisito.setCriador(up);
+						requisito.setHistorico(historico);
+						
+						if (!validator.validate(requisito).hasErrors()) {
+							try {
+								ps.persist(requisito);
+								respostaRequisito(requisito);
+							} catch (final Exception e) {
+								log.error("Erro ao persistir novo requisito", e);
+								validator.add(new I18nMessage("error", "erro.requisito.criacaoException"));
+							}
+						}
+					}
+					// Alteração
+					else {
+						final Requisito requisitoBanco = (Requisito) ps.createQuery("FROM Requisito WHERE id = :id AND projeto = :projeto").setParameter("id", requisito.getId()).setParameter("projeto", projeto).getSingleResult();
+						
+						if (requisitoBanco != null) {
+							requisito.setProjeto(projeto);
+							requisito.setComentarios(requisitoBanco.getComentarios());
+							requisito.setVotos(requisitoBanco.getVotos());
+							requisito.setHistorico(requisitoBanco.getHistorico());
+							requisito.setCriador(requisitoBanco.getCriador());
+							requisito.setTarefas(requisitoBanco.getTarefas());
+							
+							requisito.getHistorico().add(requisito.getUltimaAlteracao());
+							
+							if (!validator.validate(requisito).hasErrors()) {
+								try {
+									requisito = ps.merge(requisito);
+									respostaRequisito(requisito);
+								} catch (final Exception e) {
+									log.error("Erro ao alterar requisito", e);
+									validator.add(new I18nMessage("error", "erro.requisito.alteracaoException"));
+								}
+							}
+						}
+						else {
+							validator.add(new I18nMessage("error", "erro.requisito.semAutorizacao"));
+						}
+					}
+				}
+				else {
+					validator.add(new I18nMessage("error", "erro.requisito.semAutorizacao"));
+				}
+			}
+		}
+		else {
+			result.notFound();
+		}
+		
+		if (validator.hasErrors()) {
+			validator.onErrorUse(Results.json()).withoutRoot().from(validator.getErrors()).serialize();
+		}
+	}
+	
+	private UsuarioProjeto getUsuarioProjetoAtual(final Projeto projeto) {
+		return (UsuarioProjeto) ps.createQuery("FROM UsuarioProjeto WHERE usuario = :usuarioLogado AND projeto = :projeto").setParameter("usuarioLogado", usuarioLogado.get()).setParameter("projeto", projeto).getSingleResult();
+	}
 }
