@@ -14,7 +14,9 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
+import br.com.talpi.requisito.Projeto;
 import br.com.talpi.requisito.Requisito;
+import br.com.talpi.usuario.PapelUsuarioProjetoEnum;
 import br.com.talpi.util.PersistenceService;
 import br.com.talpi.util.RequerAutenticacao;
 import br.com.talpi.util.UsuarioLogado;
@@ -46,16 +48,50 @@ public class RequisitoController {
 		}
 	}
 	
-	private Requisito get(final Long projeto, final Long id) {
+	/**
+	 * @param id Identificador do Projeto
+	 * @return {@link Projeto} especificado pelo {@code id} desde que ele pertença ao usuário logado atualmente ou o usuário logado seja {@link PapelUsuarioProjetoEnum#PM Project Manager} no projeto
+	 */
+	private Projeto getProjeto(final Long id) {
+		return getProjeto(id, true);
+	}
+	
+	/**
+	 * @param id Identificador do Projeto
+	 * @param pm O usuário logado deve ser um PM para ter acesso ao projeto?
+	 * @return {@link Projeto} especificado pelo {@code id} desde que ele pertença ao usuário logado atualmente ou o usuário logado seja {@link PapelUsuarioProjetoEnum#PM Project Manager} no projeto
+	 */
+	private Projeto getProjeto(final Long id, final boolean pm) {
+		if (pm) {
+			return (Projeto) ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE (p.criador = :criador OR (up.id = :criador AND up.papel = :enumPM)) AND p.id = :id").setParameter("criador", usuarioLogado.get().getId()).setParameter("enumPM", PapelUsuarioProjetoEnum.PM).setParameter("id", id).getSingleResult();
+		}
+		else {
+			return (Projeto) ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE (p.criador = :criador OR up.id = :criador) AND p.id = :id").setParameter("criador", usuarioLogado.get().getId()).setParameter("id", id).getSingleResult();
+		}
+	}
+	
+	/**
+	 * @param projeto Projeto a qual o requisito pertence
+	 * @param id Identificador do Projeto
+	 * @return Requisito, desde que exista no Projeto
+	 */
+	private Requisito get(final Projeto projeto, final Long id) {
 		return (Requisito) ps.createQuery("FROM Requisito WHERE projeto = :projeto AND id = :id").setParameter("projeto", projeto).setParameter("id", id).getSingleResult();
 	}
 	
 	@Get({ "/lista", "/lista/{pagina:\\d+}", "/lista/{pagina:\\d+}/{itens:\\d+}" })
-	public void requisitos(final Long projeto, final Integer pagina, final Integer itens) {
-		final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 20;
-		final int offset = pagina == null ? 0 : pagina * resultados;
-		final List<Requisito> requisitos = ps.createQuery("FROM Requisito WHERE projeto = :projeto").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get().getId()).getResultList();
-		result.use(Results.json()).withoutRoot().from(requisitos).include("votos", "comentarios").serialize();
+	public void requisitos(final Long pid, final Integer pagina, final Integer itens) {
+		final Projeto projeto = getProjeto(pid);
+		
+		if (projeto != null) {
+			final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 20;
+			final int offset = pagina == null ? 0 : pagina * resultados;
+			final List<Requisito> requisitos = ps.createQuery("FROM Requisito WHERE projeto = :projeto").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get().getId()).getResultList();
+			result.use(Results.json()).withoutRoot().from(requisitos).include("votos", "comentarios").serialize();
+		}
+		else {
+			result.notFound();
+		}
 	}
 	
 //	@Get("/{id:\\d+}")

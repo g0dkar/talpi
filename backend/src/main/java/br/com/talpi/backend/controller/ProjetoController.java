@@ -65,7 +65,6 @@ public class ProjetoController {
 	
 	/**
 	 * @param id Identificador do Projeto
-	 * 
 	 * @return {@link Projeto} especificado pelo {@code id} desde que ele pertença ao usuário logado atualmente ou o usuário logado seja {@link PapelUsuarioProjetoEnum#PM Project Manager} no projeto
 	 */
 	private Projeto get(final Long id) {
