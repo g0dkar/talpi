@@ -19,9 +19,9 @@ import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 /**
- * Handles a few stuff about an {@link EntityManager} (which is injected)
+ * Gerencia algumas coisas relacionadas a um {@link EntityManager} (que é injetado)
  * 
- * @author g0dkar
+ * @author Rafael Lins
  *
  */
 @RequestScoped
@@ -111,9 +111,9 @@ public class PersistenceService {
 	}
 	
 	/**
-	 * Wraps a {@link Query} object and implements some nice features (or just avoid annoying crap)
+	 * Engloba um objeto {@link Query} e implementa algumas funcionalidades sob ela (e esconde algumas coisas chatas)
 	 * 
-	 * @author g0dkar
+	 * @author Rafael Lins
 	 *
 	 */
 	public static class NiceQuery implements Query {

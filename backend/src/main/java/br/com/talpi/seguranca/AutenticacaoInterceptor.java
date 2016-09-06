@@ -18,7 +18,8 @@ import br.com.talpi.util.UsuarioLogado;
 
 /**
  * Garante que o acesso a classes e métodos anotados com {@link RequerAutenticacao} só será feito se houver um usuario logado
- * @author g0dkar
+ * 
+ * @author Rafael Lins
  *
  */
 @Intercepts
@@ -38,6 +39,11 @@ public class AutenticacaoInterceptor {
 		this.usuarioLogado = usuarioLogado;
 	}
 	
+	/**
+	 * Caso esse interceptor necessite ser executado, essa chamada só será feita se houver um usuário logado
+	 * @param stack Stack de interceptors da requisição
+	 * @see SimpleInterceptorStack#next()
+	 */
 	@AroundCall
     public void intercept(final SimpleInterceptorStack stack) {
 		if (usuarioLogado.get() == null) {
@@ -49,6 +55,9 @@ public class AutenticacaoInterceptor {
 		}
 	}
 	
+	/**
+	 * Use esse interceptor se a classe do controller ou o método estiverem anotados com {@link RequerAutenticacao}
+	 */
 	@Accepts
 	public boolean accepts(final ControllerMethod method) {
 	    return method.containsAnnotation(RequerAutenticacao.class) || method.getController().getType().isAnnotationPresent(RequerAutenticacao.class);

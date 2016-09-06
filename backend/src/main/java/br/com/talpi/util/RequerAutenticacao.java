@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * Marca um Controller ou Método para ser acessado apenas se o usuário estiver logado
- * @author g0dkar
+ * @author Rafael Lins
  *
  */
 @Documented

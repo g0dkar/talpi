@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -45,6 +46,7 @@ public class Requisito implements Serializable {
 	@Column(nullable = false)
 	private Instant timestampCriacao;
 	
+	@Valid
 	@NotNull
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private HistoricoRequisito ultimaAlteracao;
@@ -74,6 +76,7 @@ public class Requisito implements Serializable {
 	@OneToMany(mappedBy = "requisito", orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Tarefa> tarefas;
 	
+	@Valid
 	@NotEmpty
 	@OrderBy("timestamp DESC")
 	@OneToMany(mappedBy = "requisito", orphanRemoval = true, fetch = FetchType.LAZY)
