@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import br.com.talpi.usuario.UsuarioProjeto;
+import br.com.talpi.usuario.Usuario;
 
 @Entity
 public class Comentario implements Serializable {
@@ -29,7 +29,7 @@ public class Comentario implements Serializable {
 	private Comentarios thread;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	private UsuarioProjeto usuario;
+	private Usuario usuario;
 	
 	@Column(nullable = false)
 	private Instant timestamp;
@@ -55,11 +55,11 @@ public class Comentario implements Serializable {
 		this.id = id;
 	}
 
-	public UsuarioProjeto getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(final UsuarioProjeto usuario) {
+	public void setUsuario(final Usuario usuario) {
 		this.usuario = usuario;
 	}
 
