@@ -54,10 +54,10 @@ public class Requisito implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Estado estado;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Comentarios comentarios;
 	
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Votos votos;
 	
 	@NotBlank
@@ -95,6 +95,14 @@ public class Requisito implements Serializable {
 		if (historico.size() > 1) {
 			// Nosso Índice de Risco é a quantidade de mudanças divida pela idade do requisito em dias
 			indiceRisco = historico.size() / ((ultimaAlteracao.getTimestamp().getEpochSecond() - timestampCriacao.getEpochSecond()) / 86400);
+		}
+		
+		if (comentarios == null) {
+			comentarios = new Comentarios();
+		}
+		
+		if (votos == null) {
+			votos = new Votos();
 		}
 	}
 
