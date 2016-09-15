@@ -5,19 +5,28 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 
+import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
+import br.com.talpi.estado.Estado;
+import br.com.talpi.estado.EstadoEnum;
 import br.com.talpi.requisito.Projeto;
 import br.com.talpi.requisito.Requisito;
 import br.com.talpi.requisito.Tarefa;
+import br.com.talpi.social.Comentarios;
+import br.com.talpi.social.Votos;
 import br.com.talpi.usuario.PapelUsuarioProjetoEnum;
+import br.com.talpi.usuario.UsuarioProjeto;
 import br.com.talpi.util.PersistenceService;
 import br.com.talpi.util.RequerAutenticacao;
 import br.com.talpi.util.UsuarioLogado;
@@ -55,11 +64,11 @@ public class TarefaController {
 	}
 	
 	/**
-	 * @param id Identificador do Projeto
-	 * @return {@link Projeto} especificado pelo {@code id} desde que ele pertença ao usuário logado atualmente ou o usuário logado seja {@link PapelUsuarioProjetoEnum#PM Project Manager} no projeto
+	 * @param projeto Projeto cujo usuário está tentando mexer
+	 * @return {@link UsuarioProjeto} do usuário atual para o {@link Projeto}, se ele existir
 	 */
-	private Projeto getProjeto(final Long id) {
-		return getProjeto(id, true);
+	private UsuarioProjeto getUsuarioProjetoAtual(final Projeto projeto) {
+		return (UsuarioProjeto) ps.createQuery("FROM UsuarioProjeto WHERE usuario = :usuarioLogado AND projeto = :projeto").setParameter("usuarioLogado", usuarioLogado.get()).setParameter("projeto", projeto).getSingleResult();
 	}
 	
 	/**
@@ -143,6 +152,91 @@ public class TarefaController {
 		}
 		else {
 			result.notFound();
+		}
+	}
+	
+	/**
+	 * <p><code>POST /projeto/{id}/membros</code>
+	 * 
+	 * <p>Altera a lista de membros de um {@link Projeto}. O criador do projeto sempre será um {@link PapelUsuarioProjetoEnum#PM Project Manager} do projeto
+	 * 
+	 * @param id Id do Projeto
+	 * @param membros Lista <strong>completa</strong> de membros do projeto
+	 */
+	@Transactional
+	@Post("/{projeto:\\d+}/{requisito:\\d+}")
+	@Consumes({ "application/json", "application/x-www-form-urlencoded" })
+	public void membros(final Long requisito, final Long projeto, Tarefa tarefa) {
+		final Projeto proj = getProjeto(projeto, false);
+		
+		if (proj != null) {
+			final Requisito req = getRequisito(proj, requisito);
+			
+			if (req != null) {
+				final UsuarioProjeto up = getUsuarioProjetoAtual(proj);
+				
+				if (tarefa.getId() == null) {
+					if (up.getPapel().equals(PapelUsuarioProjetoEnum.PM)) {
+						tarefa.setRequisito(req);
+						tarefa.setComentarios(new Comentarios());
+						tarefa.setVotos(new Votos());
+						tarefa.setCriador(up);
+						tarefa.setEstado(new Estado());
+						tarefa.getEstado().setEstado(EstadoEnum.CRIADO);
+						
+						if (!validator.validate(tarefa).hasErrors()) {
+							try {
+								ps.persist(tarefa);
+								result.use(Results.json()).withoutRoot().from(tarefa).include("estado", "comentarios", "votos").serialize();
+							} catch (final Exception e) {
+								log.error("Erro ao persistir Tarefa", e);
+							}
+						}
+					}
+					else {
+						validator.add(new I18nMessage("error", "erro.tarefa.semPermissaoCriar"));
+					}
+				}
+				else {
+					final Tarefa tarefaBanco = (Tarefa) ps.createQuery("FROM Tarefa WHERE id = :id AND requisito = :requisito").setParameter("id", tarefa.getId()).setParameter("requisito", requisito).getSingleResult();
+					
+					if (tarefaBanco != null) {
+						if (tarefaBanco.getCriador().getId().equals(up.getId()) || up.getPapel().equals(PapelUsuarioProjetoEnum.PM)) {
+							tarefa.setComentarios(tarefaBanco.getComentarios());
+							tarefa.setCriador(tarefaBanco.getCriador());
+							tarefa.setRequisito(req);
+							tarefa.setTempoTrabalhado(tarefaBanco.getTempoTrabalhado());
+							tarefa.setTimestamp(tarefaBanco.getTimestamp());
+							tarefa.setVotos(tarefaBanco.getVotos());
+							
+							if (!validator.validate(tarefa).hasErrors()) {
+								try {
+									tarefa = ps.merge(tarefa);
+									result.use(Results.json()).withoutRoot().from(tarefa).include("estado", "comentarios", "votos").serialize();
+								} catch (final Exception e) {
+									log.error("Erro ao persistir Tarefa", e);
+								}
+							}
+						}
+						else {
+							validator.add(new I18nMessage("error", "erro.tarefa.semPermissaoEditar"));
+						}
+					}
+					else {
+						result.notFound();
+					}
+				}
+			}
+			else {
+				result.notFound();
+			}
+		}
+		else {
+			result.notFound();
+		}
+		
+		if (validator.hasErrors()) {
+			validator.onErrorUse(Results.json()).withoutRoot().from(validator.getErrors()).serialize();
 		}
 	}
 }
