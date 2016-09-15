@@ -3,6 +3,7 @@ package br.com.talpi.requisito;
 import java.io.Serializable;
 import java.time.Instant;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,12 +11,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import br.com.talpi.estado.Estado;
+import br.com.talpi.social.Comentarios;
+import br.com.talpi.social.Votos;
 import br.com.talpi.usuario.UsuarioProjeto;
 
 @Entity
@@ -49,9 +53,26 @@ public class Tarefa implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Estado estado;
 	
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Comentarios comentarios;
+	
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Votos votos;
+	
 	/** Tempo trabalhado na tarefa em segundos */
 	@Column(nullable = false)
 	private long tempoTrabalhado;
+	
+	@PrePersist
+	public void beforeSave() {
+		if (comentarios == null) {
+			comentarios = new Comentarios();
+		}
+		
+		if (votos == null) {
+			votos = new Votos();
+		}
+	}
 
 	public Long getId() {
 		return id;
@@ -115,5 +136,21 @@ public class Tarefa implements Serializable {
 
 	public void setTempoTrabalhado(final long tempoTrabalhado) {
 		this.tempoTrabalhado = tempoTrabalhado;
+	}
+
+	public Comentarios getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(final Comentarios comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	public Votos getVotos() {
+		return votos;
+	}
+
+	public void setVotos(final Votos votos) {
+		this.votos = votos;
 	}
 }
