@@ -27,12 +27,24 @@ public class Comentarios implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+    /** Momento do primeiro comentário */
+
 	private Instant primeiroComentario;
+
+    /** Momento do ultimo comentário */
+
 	private Instant ultimoComentario;
+
+    /** Quantidade total de comentários */
+
 	private long totalComentarios;
+
+    /** Melhor comentário */
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Comentario melhorComentario;
+
+    /** Lista com os comentarios (Comentario) pertecentes*/
 	
 	@OrderBy("pai DESC, timestamp DESC")
 	@OneToMany(mappedBy = "thread", orphanRemoval = true, fetch = FetchType.LAZY)
