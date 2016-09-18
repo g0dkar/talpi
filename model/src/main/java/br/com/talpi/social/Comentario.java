@@ -30,23 +30,37 @@ public class Comentario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	/** Lista de Comentários a qual este objeto Comentario pertence */
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Comentarios thread;
+
+	/** Usuario que criou este comentário */
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Usuario usuario;
+
+	/** Horário de criação do comentário */
 	
 	@Column(nullable = false)
 	private Instant timestamp;
+
+	/** Conteúdo do comentário, texto do comentário.*/
 	
 	@NotBlank
 	@Size(max = 65535)
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String texto;
+
+	/** Comentário Pai caso o comentário possui um Pai*/
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Comentario pai;
+
+	/** Método para ser executado antes do objeto ser persistido
+	 * neste metódo o timestamp de criação é definido com o Instant atual
+	 * ou seja, o Instant.now()*/
 	
 	@PrePersist
 	public void beforeSave() {

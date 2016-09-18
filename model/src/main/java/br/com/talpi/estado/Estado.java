@@ -26,14 +26,20 @@ public class Estado implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+    /** Estado da instancia deste objeto do tipo EstadoEnum */
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 24)
 	private EstadoEnum estado;
 
+    /** Estado da instancia anterior deste objeto do tipo EstadoEnum */
+
 	@Enumerated(EnumType.STRING)
 	@Column(length = 24)
 	private EstadoEnum estadoAnterior;
+
+    /** Momento da criação deste objeto */
 
 	@Column(nullable = false)
 	private Instant timestamp;
