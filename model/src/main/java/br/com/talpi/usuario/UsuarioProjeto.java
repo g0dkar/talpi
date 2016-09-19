@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import br.com.talpi.requisito.Projeto;
 
 @Entity
-@Table(indexes = { @Index(name = "unique_user_per_project", columnList = "usuario, projeto", unique = true) })
+@Table(indexes = { @Index(name = "unique_user_per_project", columnList = "usuario_id, projeto_id", unique = true) })
 public class UsuarioProjeto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
