@@ -1,1 +1,9 @@
+# Gerenciadores de pacote
 /node_modules/
+bower_components
+
+# IDE's
+.idea
+
+# Arquivos auto-gerados
+dist
