@@ -56,6 +56,12 @@ public class Votos implements Serializable {
 		return positivos;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar o votos Positivos
+	 * @param positivos long - Positivos*/
+
+>>>>>>> Stashed changes
 	public void setPositivos(final long positivos) {
 		this.positivos = positivos;
 	}

@@ -57,6 +57,12 @@ public class Tarefa implements Serializable {
 		return id;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar id
+	 * @param id long - Negativos*/
+
+>>>>>>> Stashed changes
 	public void setId(final Long id) {
 		this.id = id;
 	}

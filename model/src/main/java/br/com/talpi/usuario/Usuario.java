@@ -48,20 +48,47 @@ public class Usuario implements Serializable {
 	
 	@Column(nullable = false)
 	private boolean premium;
+<<<<<<< Updated upstream
+=======
+
+	/** Método para ser executado antes do objeto ser persistido
+	 * neste metódo o timestamp de criação é definido com o Instant atual
+	 * ou seja, o Instant.now()
+	 * */
+>>>>>>> Stashed changes
 	
 	@PrePersist
 	public void beforeSave() {
 		timestampCriacao = Instant.now();
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retorno do Id
+	*   @return long - id*/
+
+>>>>>>> Stashed changes
 	public Long getId() {
 		return id;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar id
+	 * 	@param id long - Negativos
+	 **/
+
+>>>>>>> Stashed changes
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retorno do Nome
+ 	*  	@return String - nome*/
+
+>>>>>>> Stashed changes
 	public String getNome() {
 		return nome;
 	}
@@ -70,6 +97,12 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retorno do Email
+	 *  @return String - email*/
+
+>>>>>>> Stashed changes
 	public String getEmail() {
 		return email;
 	}

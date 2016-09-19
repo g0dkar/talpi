@@ -59,6 +59,12 @@ public class HistoricoRequisito implements Serializable {
 		return id;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar id
+	 * @param id long - Negativos*/
+
+>>>>>>> Stashed changes
 	public void setId(final Long id) {
 		this.id = id;
 	}
@@ -75,6 +81,12 @@ public class HistoricoRequisito implements Serializable {
 		return usuario;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar o Usuário Criador
+	 * @param usuario UsuarioProjeto - Requisito*/
+
+>>>>>>> Stashed changes
 	public void setUsuario(final UsuarioProjeto usuario) {
 		this.usuario = usuario;
 	}

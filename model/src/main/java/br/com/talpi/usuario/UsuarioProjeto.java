@@ -50,28 +50,72 @@ public class UsuarioProjeto implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 16)
 	private PapelUsuarioProjetoEnum papel;
+<<<<<<< Updated upstream
 	
+=======
+
+	/** Método para ser executado antes do objeto ser persistido
+	 * neste metódo o timestamp de criação é definido com o Instant atual
+	 * ou seja, o Instant.now()
+	 * */
+
+>>>>>>> Stashed changes
 	@PrePersist
 	public void beforeSave() {
 		timestampCriacao = Instant.now();
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retorno do Id
+	 *   @return long - id
+	 * */
+
+>>>>>>> Stashed changes
 	public Long getId() {
 		return id;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar id
+	 * @param id long - Negativos
+	 * */
+
+>>>>>>> Stashed changes
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retorno do usuário criador do Projeto
+	 *   @return Usuario - criador
+	 * */
+
+>>>>>>> Stashed changes
 	public Usuario getCriador() {
 		return criador;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar o usuario criador do projeto
+	 * @param criador Usuario - Negativos
+	 * */
+
+>>>>>>> Stashed changes
 	public void setCriador(final Usuario criador) {
 		this.criador = criador;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retorno do Instant de criação
+	 *   @return Instant - timestampCriacao
+	 * */
+
+>>>>>>> Stashed changes
 	public Instant getTimestampCriacao() {
 		return timestampCriacao;
 	}

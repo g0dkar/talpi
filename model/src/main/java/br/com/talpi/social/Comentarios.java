@@ -70,10 +70,22 @@ public class Comentarios implements Serializable {
 		this.melhorComentario = melhorComentario;
 	}
 
+<<<<<<< Updated upstream
+=======
+    /** Método para retornar uma lista com todos os comentários
+     *   @return {@link List} - comentarios*/
+
+>>>>>>> Stashed changes
 	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
+<<<<<<< Updated upstream
+=======
+    /** Método para definir a listra de comentários
+     * @param comentarios {@link List} - Lista de comentários*/
+
+>>>>>>> Stashed changes
 	public void setComentarios(final List<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}

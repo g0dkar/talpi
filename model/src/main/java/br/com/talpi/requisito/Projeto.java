@@ -72,6 +72,12 @@ public class Projeto implements Serializable {
 		return id;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar id
+	 * @param id long - Negativos*/
+
+>>>>>>> Stashed changes
 	public void setId(final Long id) {
 		this.id = id;
 	}
@@ -80,6 +86,12 @@ public class Projeto implements Serializable {
 		return criador;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar o usuario criador do projeto
+	 * @param criador Usuario - Negativos*/
+
+>>>>>>> Stashed changes
 	public void setCriador(final Usuario criador) {
 		this.criador = criador;
 	}
@@ -88,9 +100,21 @@ public class Projeto implements Serializable {
 		return timestampCriacao;
 	}
 
+<<<<<<< Updated upstream
 	public void setTimestampCriacao(final Instant timestampCriacao) {
 		this.timestampCriacao = timestampCriacao;
 	}
+=======
+	/** Método para setar o Instant de criação
+	 * @param timestampCriacao Instant - Instant com a criação do Projeto*/
+
+	public void setTimestampCriacao(final Instant timestampCriacao) {
+		this.timestampCriacao = timestampCriacao;
+	}
+
+	/** Método para retorno do Nome
+	 *   @return String - nome*/
+>>>>>>> Stashed changes
 
 	public String getNome() {
 		return nome;
@@ -108,10 +132,22 @@ public class Projeto implements Serializable {
 		this.congelado = congelado;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/**  Método para retornar a lista de requisitos do projetos
+	 * @return {@link List} - requisitos*/
+
+>>>>>>> Stashed changes
 	public List<Requisito> getRequisitos() {
 		return requisitos;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para definir a lista de requisitos do projeto
+	 * @param requisitos {@link List} - Lista com os requisitos de um projeto */
+
+>>>>>>> Stashed changes
 	public void setRequisitos(final List<Requisito> requisitos) {
 		this.requisitos = requisitos;
 	}
@@ -132,10 +168,22 @@ public class Projeto implements Serializable {
 		this.descricao = descricao;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retornar os usuários do projeto
+	 * @return {@link List}  - descricao*/
+
+>>>>>>> Stashed changes
 	public List<UsuarioProjeto> getUsuarios() {
 		return usuarios;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método definir a lista de usuários do Projeto
+	 * @param usuarios {@link List} - usuarios do Projeto*/
+
+>>>>>>> Stashed changes
 	public void setUsuarios(final List<UsuarioProjeto> usuarios) {
 		this.usuarios = usuarios;
 	}

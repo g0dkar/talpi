@@ -99,6 +99,12 @@ public class Requisito implements Serializable {
 		return id;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para setar id
+	 * @param id long - Negativos*/
+
+>>>>>>> Stashed changes
 	public void setId(final Long id) {
 		this.id = id;
 	}
@@ -175,18 +181,42 @@ public class Requisito implements Serializable {
 		this.indiceRisco = indiceRisco;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retornar as tarefas do Requisito
+	 * @return {@link List} - Tarefas do Requisito */
+
+>>>>>>> Stashed changes
 	public List<Tarefa> getTarefas() {
 		return tarefas;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para definir as tarefas do requisito
+	 * @param tarefas {@link List} - Tarefas do Requisitos */
+
+>>>>>>> Stashed changes
 	public void setTarefas(final List<Tarefa> tarefas) {
 		this.tarefas = tarefas;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para retornar o historico do requisito
+	 * @return {@link List} - historico*/
+
+>>>>>>> Stashed changes
 	public List<HistoricoRequisito> getHistorico() {
 		return historico;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/** Método para definir o historico do requisito
+	 * @param historico {@link List} - Historico do Requisito*/
+
+>>>>>>> Stashed changes
 	public void setHistorico(final List<HistoricoRequisito> historico) {
 		this.historico = historico;
 	}
