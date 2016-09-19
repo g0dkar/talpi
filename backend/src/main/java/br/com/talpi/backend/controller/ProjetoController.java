@@ -83,7 +83,7 @@ public class ProjetoController {
 	public void projetos(final Integer pagina, final Integer itens) {
 		final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 10;
 		final int offset = pagina == null ? 0 : pagina * resultados;
-		final List<Projeto> projetos = ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE p.criador = :criador OR (up.id = :criador AND up.papel = :enumPM)").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get()).getResultList();
+		final List<Projeto> projetos = ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE p.criador = :criador OR (up.id = :criador AND up.papel = :enumPM)").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get()).setParameter("enumPM", PapelUsuarioProjetoEnum.PM).getResultList();
 		result.use(Results.json()).withoutRoot().from(projetos).serialize();
 	}
 	
