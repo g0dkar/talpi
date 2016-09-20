@@ -68,7 +68,7 @@ public class ProjetoController {
 	 * @return {@link Projeto} especificado pelo {@code id} desde que ele pertença ao usuário logado atualmente ou o usuário logado seja {@link PapelUsuarioProjetoEnum#PM Project Manager} no projeto
 	 */
 	private Projeto get(final Long id) {
-		return (Projeto) ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE (p.criador = :criador OR (up.id = :criador AND up.papel = :enumPM)) AND p.id = :id").setParameter("criador", usuarioLogado.get().getId()).setParameter("enumPM", PapelUsuarioProjetoEnum.PM).setParameter("id", id).getSingleResult();
+		return (Projeto) ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE (p.criador = :criador OR (up.id = :criador AND up.papel = :enumPM)) AND p.id = :id").setParameter("criador", usuarioLogado.get()).setParameter("enumPM", PapelUsuarioProjetoEnum.PM).setParameter("id", id).getSingleResult();
 	}
 	
 	/**
