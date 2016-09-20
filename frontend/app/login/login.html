@@ -1,5 +1,24 @@
-<form>
-	<input type="text" name="email" ng-model="vm.user.email" />
-	<input type="password" name="pass" ng-model="vm.user.senha" />
-	<button ng-click="vm.auth()">Login</button>
-</form>
+<link rel="stylesheet" href="../../../../../talpi/frontend/app/app.css">
+<div layout="column" layout-align="center center" layout-fill="layout-fill">
+	<div layout="column" class="loginBox md-whiteframe-z1">
+		<md-toolbar>
+			<h2 class="md-toolbar-tools"><span>Entrar</span></h2>
+		</md-toolbar>
+		<md-content layout="column" class="md-padding">
+			<md-input-container>
+				<label>Email</label>
+				<input type="email" name="email" ng-model="vm.user.email"/>
+			</md-input-container>
+			<md-input-container>
+				<label>Senha</label>
+				<input type="password" name="pass" ng-model="vm.user.senha"/>
+			</md-input-container>
+			<div layout="row" layout-align="center center" style="padding-top:20px;">
+				<md-button class="md-raised md-primary" ng-click="vm.auth()">Entrar</md-button>
+				<div flex="flex"></div>
+				<!--<md-button href="" md-no-ink="md-no-ink">Esqueci a senha</md-button>-->
+			</div>
+		</md-content>
+	</div>
+</div>
+
