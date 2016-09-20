@@ -1,53 +1,16 @@
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>Projetos</h1>
-		</div>
+<div ng-init="vm.init()" ng-cloak>
+	<div ng-repeat="project in vm.projects">
+		<a ui-sref="project({id : project.id, project: project})">{{project.nome}}</a>
+		<span><b>Descrição:</b> {{project.descricao}}</span>
+		<span><b>Congelado:</b> {{project.congelado}}</span>
 	</div>
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="card">
-				<div class="row">
-					<div class="col-md-8">
-						<h2 class="card-title">Seus Projetos</h2>
-					</div>
-					<div class="col-md-4 text-right">
-						<button type="button" ng-click="atualizar()" class="btn btn-sm btn-info">Atualizar</button>
-						<a ui-sref="projetos_novo" class="btn btn-sm btn-success">+ Novo</a>
-					</div>
-				</div>
-				<table class="table table-condensed table-striped">
-					<thead>
-						<tr>
-							<td>Nome</td>
-							<td>Status</td>
-							<td>Ações</td>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr ng-show="loading">
-							<td colspan="3" style="padding: 50px 0"><div class="loader" ng-show="loading">Carregando...</div></td>
-						</tr>
-						<tr ng-show="projetos.length == 0">
-							<td colspan="3">Você não tem nenhum projeto... ainda! <a ui-sref="projetos_novo">Vamos começar?</a></td>
-						</tr>
-						<tr ng-hide="projetos.length == 0" ng-repeat="proj in projetos">
-							<td><a ui-sref="projetos_dashboard(id:proj.id)" ng-bind="::proj.nome"></a></td>
-							<td><span ng-bind="::proj.estado.estado"></span></td>
-							<td><button type="button" class="btn btn-xs btn-success" ng-if="!proj.congelado">Congelar</button><button type="button" class="btn btn-xs btn-primary" ng-if="proj.congelado">Descongelar</button></td>
-						</tr>
-					</tbody>
-					
-					<tfoot>
-						<tr>
-							<td>Nome</td>
-							<td>Status</td>
-							<td>Ações</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-	</div>
+</div>
+
+<div>
+	<form>
+		<input type="text" name="name" ng-model="vm.project.nome"/>
+		<input type="text" name="description" ng-model="vm.project.descricao"/>
+		<input type="checkbox" name="frozen" ng-model="vm.project.congelado"/> Congelado
+		<button ng-click="vm.save()">Criar</button>
+	</form>
 </div>

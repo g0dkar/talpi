@@ -6,27 +6,29 @@
 		.module('talpi')
 		.run(run);
 
-	run.$inject = ["$rootScope", "$state"];
-	function run($rootScope, $state) {
+	run.$inject = ['$rootScope', "$cookieStore", "$state", 'authService'];
+	function run($rootScope, $cookieStore, $state, authService) {
 		
-		$rootScope.endpoint = "http://localhost:8080";
-		$rootScope.loggedUser = null;
-		$rootScope.checkLogin = false;
-		$rootScope.lastCheck = 0;
-		$rootScope.doLogin = false;
-		$rootScope.setLogin = setLogin;
+		$rootScope.logout = logout;
+		$rootScope.checking = false;
+		$rootScope.project = $cookieStore.get('project') || null;
+		$rootScope.globals = $cookieStore.get('globals') || null;
 		$rootScope.$on("$stateChangeStart", changeState);
 
-		function setLogin(val) { $rootScope.doLogin = val; };
 		function changeState(event, toState, toStateParams) {
-			if (toState.name != "login" && !$rootScope.loggedUser) {
-				console.log(event);
+			console.log('Changing...', toState.name);
+			console.log('Globals...', $rootScope.globals);
+			if (toState.name != "login" && !$rootScope.globals) {
 				event.preventDefault();
-				$rootScope._toState = toState;
-				$rootScope._toStateParams = toStateParams;
 				$state.go("login");
 			}
 		};
+
+		function logout() {
+			authService.logout();
+			$state.go('login');
+		};
+
 	};
 
 })(angular);

@@ -6,63 +6,53 @@
 		.module('talpi')
 		.config(config);
 
-	config.$inject = ["$httpProvider", "$locationProvider", "$compileProvider", "$urlRouterProvider", "$urlMatcherFactoryProvider", "$stateProvider"];
-	function config($httpProvider, $locationProvider, $compileProvider, $urlRouterProvider, $urlMatcherFactoryProvider, $stateProvider) {
+	config.$inject = ['$httpProvider', '$stateProvider', '$urlRouterProvider'];
+	function config($httpProvider, $stateProvider, $urlRouterProvider) {
 
 		$httpProvider.defaults.withCredentials = true;
-		// Setting HTML 5 mode (bretty urls)
-		//$locationProvider.html5Mode(true);
-		// Show debug stuff?
-		$compileProvider.debugInfoEnabled(false);
-		// A "404" will go to /quiz
-		$urlRouterProvider.otherwise("/logout");
-		// Trailling "/" are optional 
-		$urlMatcherFactoryProvider.strictMode(false);
-		
-		// And now... routes.
-		$stateProvider.state("main", {
-			url: "",
-			templateUrl: "app/talpi.html",
-		})
-		.state("login", {
-			url: "/login",
-			templateUrl: "app/login/login.html",
-			controller: "LoginController",
-			controllerAs: "vm"
-		})
-		.state("logout", {
-			url: "/logout",
-			template: "",
-			controller: "LogoutController"
-		})
-		.state("projetos", {
-			url: "/projetos",
-			templateUrl: "app/project-list/project-list.html",
-			controller: "ProjetosListController"
-		})
-		.state("projetos_novo", {
-			url: "/projetos/novo",
-			templateUrl: "app/project-new/project-new.html",
-			controller: "ProjetosNovoController"
-		})
-		.state("projetos_dashboard", {
-			url: "/projetos/{id:\\d+}",
-			templateUrl: "pages/projetos_dashboard.html",
-			controller: "ProjetosDashboardController",
-			resolve: {
-				projeto: ["$q", "$http", "$state", "$stateParams", function ($q, $http, $state, $stateParams) {
-					return $q(function (resolve, reject) {
-						$http.get(endpoint + "/api/projeto/" + $stateParams.id).then(function (response) {
-							resolve(response.data);
-						},
-						function (data) {
-							$state.go("projetos");
-							reject(response.data);
-						});
-					});
-				}]
-			}
-		})
-	};	
+
+		$urlRouterProvider.otherwise('/projects');
+
+		$stateProvider
+			.state('login', {
+				url: '/login',
+				templateUrl: 'app/login/login.html',
+				controller: 'LoginCtrl',
+				controllerAs: 'vm'
+			})
+			.state('project_list', {
+				url: '/projects',
+				templateUrl: 'app/project-list/project-list.html',
+				controller: 'ProjectListCtrl',
+				controllerAs: 'vm'
+			})
+			.state('project', {
+				url: '/project/:id',
+				params: {
+					project: null
+				},
+				templateUrl: 'app/project/project.html',
+				controller: 'ProjectCtrl',
+				controllerAs: 'vm',
+				/*views: {
+					'': {
+						templateUrl: 'app/project-frames/project-frames.html',
+						controller: 'ProjectFramesCtrl',
+						controllerAs: 'vm'
+					},
+					'members': {
+						templateUrl: 'app/project-members/project-members.html',
+						controller: 'ProjectMembersCtrl',
+						controllerAs: 'vm'
+					},
+					'config': {
+						templateUrl: 'app/project-config/project-config.html',
+						controller: 'ProjectConfigCtrl',
+						controllerAs: 'vm'
+					}
+				}*/
+			})
+
+	};
 		
 })(angular);

@@ -1,27 +1,5 @@
-<div class="container" ng-init="test()">
-	<div class="row">
-		<div class="col-xs-12">
-			<img class="logo" src="../dist/img/talpi-logo.png"/>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-12">
-			<form class="card login-box" name="formLogin" novalidate ng-submit="vm.login(formLogin, $event)">
-				<div class="form-group" ng-class="{'has-error':formLogin.loginEmail.$dirty && formLogin.loginEmail.$invalid}">
-					<label for="login-email">Email *</label>
-					<input type="email" name="loginEmail" class="form-control" id="login-email" ng-model="vm.loginData.email" placeholder="Seu Email" required ng-disabled="vm.submitting">
-				</div>
-				<div class="form-group" ng-class="{'has-error':formLogin.loginSenha.$dirty && formLogin.loginSenha.$invalid}">
-					<label for="login-senha">Senha *</label>
-					<input type="password" name="loginSenha" class="form-control" id="login-senha" ng-model="vm.loginData.senha" placeholder="Senha" required ng-disabled="vm.submitting">
-				</div>
-				
-				<hr>
-				
-				<div class="card-actions">
-					<button class="btn btn-primary" type="submit" ng-disabled="vm.submitting || !formLogin.$valid">Entrar</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
+<form>
+	<input type="text" name="email" ng-model="vm.user.email" />
+	<input type="password" name="pass" ng-model="vm.user.senha" />
+	<button ng-click="vm.auth()">Login</button>
+</form>

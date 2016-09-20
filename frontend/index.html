@@ -10,29 +10,16 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 <link rel="stylesheet" href="dist/css/vendor.css">
 <link rel="stylesheet" href="dist/css/talpi.css">
-<script src="dist/js/vendor.js" defer></script>
-<script src="dist/js/talpi.js" defer></script>
+<script src="dist/js/vendor.js"></script>
+<script src="dist/js/talpi.js"></script>
 </head>
-<body ng-class="{'login':doLogin}">
-	<nav class="navbar navbar-default navbar-talpi navbar-fixed-top" ng-hide="doLogin">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" ui-sref="main">Talpi</a>
-			</div>
-
-			<ul class="nav navbar-nav">
-				<li ui-sref-active="active"><a ui-sref="projetos">Projetos</a></li>
-				<li ui-sref-active="active"><a ui-sref="requisitos">Requisitos</a></li>
-				<li ui-sref-active="active"><a ui-sref="tarefas">Tarefas</a></li>
-				<li ui-sref-active="active"><a ui-sref="membros">Membros</a></li>
-				<li ui-sref-active="active"><a ui-sref="relatorios">Relatórios</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a ui-sref="logout">Sair</a></li>
-			</ul>
+<body>
+	<div ng-hide="!globals" layout="row" layout-align="space-between">
+		<div>
+			<span>Olá, {{globals.nome}}</span>
 		</div>
-	</nav>
-		
-	<div ui-view></div>
+		<div><a href="#" ng-click="logout()">Sair</a></div>
+	</div>
+	<div style="margin-top: 20px" ui-view></div>
 </body>
 </html>
