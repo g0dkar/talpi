@@ -2,7 +2,8 @@
 	
 	angular.module("talpi", [
 		"ui.router",
-		"ngCookies"
+		"ngCookies",
+		"ngMaterial"
 	]);
 	
 })(angular);
