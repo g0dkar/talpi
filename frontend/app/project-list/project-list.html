@@ -1,16 +1,58 @@
 <div ng-init="vm.init()" ng-cloak>
-	<div ng-repeat="project in vm.projects">
-		<a ui-sref="project({id : project.id, project: project})">{{project.nome}}</a>
-		<span><b>Descrição:</b> {{project.descricao}}</span>
-		<span><b>Congelado:</b> {{project.congelado}}</span>
-	</div>
+    <md-toolbar>
+
+        <div class="md-toolbar-tools">
+            <div style="margin-top: 20px" ui-view></div>
+            <md-button aria-label="Go Back">
+                <div><a href="#" ng-click="logout()">Sair</a></div>
+            </md-button>
+            <h2>
+                <span>Olá, {{globals.nome}}</span>
+            </h2>
+            <span flex></span>
+
+        </div>
+    </md-toolbar>
+    <md-content class="md-padding" layout-xs="row" layout="row">
+        <div flex-xs flex-gt-xs="50" layout="row" ng-repeat="project in vm.projects">
+            <md-card flex="100" ui-sref="project({id : project.id, project: project})">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ project.nome }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    <p>
+                        {{ project.descricao }}
+                    </p>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button class="md-icon-button" aria-label="Favorite">
+                        <md-icon class="material-icons">track_changes</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Settings">
+                        <md-icon class="material-icons">timeline</md-icon>
+                        <!--<md-icon class="img/icons/menu.svg"></md-icon>-->
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Share">
+                        <md-icon class="material-icons">settings</md-icon>
+                        <!--<md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>-->
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+
+        </div>
+    </md-content>
 </div>
+<md-button style="position: absolute; bottom: 5px; right: 5px;" class="md-fab md-primary md-hue-2" aria-label="Profile">
+    <md-icon class="material-icons">add</md-icon>
+</md-button>
 
 <div>
-	<form>
-		<input type="text" name="name" ng-model="vm.project.nome"/>
-		<input type="text" name="description" ng-model="vm.project.descricao"/>
-		<input type="checkbox" name="frozen" ng-model="vm.project.congelado"/> Congelado
-		<button ng-click="vm.save()">Criar</button>
-	</form>
+    <form>
+        <input type="text" name="name" ng-model="vm.project.nome"/>
+        <input type="text" name="description" ng-model="vm.project.descricao"/>
+        <input type="checkbox" name="frozen" ng-model="vm.project.congelado"/> Congelado
+        <button ng-click="vm.save()">Criar</button>
+    </form>
 </div>

@@ -4,6 +4,6 @@
 
 	angular
 		.module('talpi')
-		.constant('API_URL', 'http://localhost:8080/api');
+		.constant('API_URL', 'http://192.168.0.32:8080/api');
 		
 })(angular);

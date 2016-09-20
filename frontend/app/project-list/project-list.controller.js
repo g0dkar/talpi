@@ -15,7 +15,6 @@
 		vm.loading = false;
 		vm.project = {};
 		vm.projects = [];
-
 		vm.save = save;
 
 		function init() {
