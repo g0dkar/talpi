@@ -28,30 +28,29 @@
 			})
 			.state('project', {
 				url: '/project/:id',
-				params: {
-					project: null
-				},
+				params: { project: null },
 				templateUrl: 'app/project/project.html',
 				controller: 'ProjectCtrl',
-				controllerAs: 'vm',
-				/*views: {
-					'': {
-						templateUrl: 'app/project-frames/project-frames.html',
-						controller: 'ProjectFramesCtrl',
-						controllerAs: 'vm'
-					},
-					'members': {
-						templateUrl: 'app/project-members/project-members.html',
-						controller: 'ProjectMembersCtrl',
-						controllerAs: 'vm'
-					},
-					'config': {
-						templateUrl: 'app/project-config/project-config.html',
-						controller: 'ProjectConfigCtrl',
-						controllerAs: 'vm'
-					}
-				}*/
+				controllerAs: 'vm'
 			})
+			.state('project.frame', {
+				url: '/frame',
+				templateUrl: 'app/project-frame/project-frame.html',
+				controller: 'ProjectFrameCtrl',
+				controllerAs: 'vm'
+			})
+			.state('project.config', {
+				url: '/config',
+				templateUrl: 'app/project-config/project-config.html',
+				controller: 'ProjectConfigCtrl',
+				controllerAs: 'vm'
+			})
+			.state('project.members', {
+				url: '/members',
+				templateUrl: 'app/project-members/project-members.html',
+				controller: 'ProjectMembersCtrl',
+				controllerAs: 'vm'
+			});
 
 	};
 		

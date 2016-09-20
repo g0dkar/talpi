@@ -1,3 +1,9 @@
 <div ng-init="vm.init()">
 	<h1>{{vm.project.nome}}</h1>
 </div>
+<ul>
+	<li><a href="#/project/{{vm.project.id}}/frame">Quadro</a></li>
+	<li><a href="#/project/{{vm.project.id}}/config">Configurações</a></li>
+	<li><a href="#/project/{{vm.project.id}}/members">Membros</a></li>
+</ul>
+<div ui-view></div>

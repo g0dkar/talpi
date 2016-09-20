@@ -17,18 +17,20 @@
 		service.put = put;
 		service.remove = remove;
 
+		service.addMembros = addMembros;
+
 		return service;
 
 		function getAll() {
-			return $http.get(API_URL + '/api/projeto/lista');
+			return $http.get(API_URL + '/projeto/lista');
 		};
 
 		function get(id) {
-			return $http.get(API_URL + '/api/projeto/' + id);
+			return $http.get(API_URL + '/projeto/' + id);
 		};
 
 		function post(entity) {
-			return $http.post(API_URL + '/api/projeto/editar', entity);
+			return $http.post(API_URL + '/projeto/editar', entity);
 		};
 
 		function put(id, entity) {
@@ -38,6 +40,10 @@
 		function remove(id) {
 
 		};
+
+		function addMembros(id, entity) {
+			return $http.post(API_URL + '/projeto/' + id + '/membros', entity);
+		}
 	};
 
 })(angular);

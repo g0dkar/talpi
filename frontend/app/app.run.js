@@ -16,12 +16,14 @@
 		$rootScope.$on("$stateChangeStart", changeState);
 
 		function changeState(event, toState, toStateParams) {
-			console.log('Changing...', toState.name);
-			console.log('Globals...', $rootScope.globals);
-			if (toState.name != "login" && !$rootScope.globals) {
-				event.preventDefault();
-				$state.go("login");
-			}
+			authService.check().then(function() {
+				if ((toState.name != "login" && !$rootScope.globals) || !authService.check) {
+					event.preventDefault();
+					$state.go("login");
+				}
+			}, function() {
+				logout();
+			})
 		};
 
 		function logout() {

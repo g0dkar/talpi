@@ -6,8 +6,8 @@
 		.module('talpi')
 		.factory('requirementService', requirementService);
 
-	requirementService.$inject = [];
-	function requirementService() {
+	requirementService.$inject = ['API_URL', '$http', '$rootScope'];
+	function requirementService(API_URL, $http, $rootScope) {
 
 		var service = {};
 
@@ -20,15 +20,15 @@
 		return service;
 
 		function getAll() {
-
+			return $http.get(API_URL + '/requisito/' + $rootScope.project.id + '/lista');
 		};
 
 		function get(id) {
-
+			return $http.get(API_URL + '/requisito/' + $rootScope.project.id + '/' + id);
 		};
 
 		function post(entity) {
-
+			return $http.post(API_URL + '/requisito/' + $rootScope.project.id + '/editar', entity);
 		};
 
 		function put(id, entity) {

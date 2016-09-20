@@ -4,50 +4,48 @@
 
 	angular
 		.module('talpi')
-		.controller('ProjectListCtrl', ProjectListCtrl);
+		.controller('ProjectFrameCtrl', ProjectFrameCtrl);
 
-	ProjectListCtrl.$inject = ['projectService', '$state', '$cookieStore', '$rootScope'];
-	function ProjectListCtrl(projectService, $state, $cookieStore, $rootScope) {
+	ProjectFrameCtrl.$inject = ['requirementService', 'taskService'];
+	function ProjectFrameCtrl(requirementService, taskService) {
 
 		var vm = this;
 
 		vm.init = init;
 		vm.loading = false;
-		vm.project = {};
-		vm.projects = [];
+		vm.requirement = {};
+		vm.requirements = [];
 
 		vm.save = save;
 
 		function init() {
 			vm.loading = true;
-			projectService.getAll().then(function(response) {
-				vm.projects = response.data;
+			requirementService.getAll().then(function(response) {
+				vm.requirements = response.data;
 				vm.loading = false;
 			}, function(err) {
 				console.error('Erro na requisição');
 				//TODO treat request error
-				vm.loading = false;
+				vm.loading = false;	
 			});
-		}
+		};
 
 		function save() {
 			vm.loading = true;
-			projectService.post(vm.project).then(function(response) {
+			requirementService.post(vm.project).then(function(response) {
 				if(angular.isArray(response.data)) {
 					console.error(response.data[0].message);
 					//TODO treat invalid data
 					vm.loading = false;
 				} else {
-					$cookieStore.put('project', response.data);
-					$rootScope.project = response.data;
+					vm.requirements.push(response.data);
 					vm.loading = false;
-					$state.go("project", { id: response.data.id });
 				}
 
 			}, function(err) {
 				console.error('Erro na requisição');
 				//TODO treat request error
-				vm.loading = false;
+				vm.loading = false;	
 			});
 		}
 	};

@@ -6,8 +6,8 @@
 		.module('talpi')
 		.factory('userService', userService);
 
-	userService.$inject = [];
-	function userService() {
+	userService.$inject = ['API_URL', '$http', '$rootScope'];
+	function userService(API_URL, $http, $rootScope) {
 
 		var service = {};
 
@@ -20,15 +20,15 @@
 		return service;
 
 		function getAll() {
-
+			return $http.get(API_URL + '/usuario/perfil/');
 		};
 
 		function get(id) {
-
+			return $http.get(API_URL + '/usuario/perfil/' + id);
 		};
 
 		function post(entity) {
-
+			return $http.post(API_URL + '/usuario/perfil/', entity);
 		};
 
 		function put(id, entity) {
