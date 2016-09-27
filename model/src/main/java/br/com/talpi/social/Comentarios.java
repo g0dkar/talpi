@@ -107,28 +107,32 @@ public class Comentarios implements Serializable {
 	}
 
     /** Método para retornar o melhor comentário
-     *   @return Comentario - melhorComentario*/
+     *   @return {@link Comentario} - melhorComentario
+     * */
 
 	public Comentario getMelhorComentario() {
 		return melhorComentario;
 	}
 
     /** Método para definir o melhor Comentário
-     * @param melhorComentario Comentario - O Melhor comentário*/
+     * @param melhorComentario {@link Comentario} - O Melhor comentário
+     * */
 
 	public void setMelhorComentario(final Comentario melhorComentario) {
 		this.melhorComentario = melhorComentario;
 	}
 
     /** Método para retornar uma lista com todos os comentários
-     *   @return List<Comentario> - comentarios*/
+     *   @return {@link List} - comentarios
+     * */
 
 	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
     /** Método para definir a listra de comentários
-     * @param comentarios List<Comentario> - Lista de comentários*/
+     * @param comentarios {@link List} - Lista de comentários
+     * */
 
 	public void setComentarios(final List<Comentario> comentarios) {
 		this.comentarios = comentarios;

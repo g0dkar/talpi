@@ -82,14 +82,16 @@ public class Comentario implements Serializable {
 	}
 
 	/** Método para retorno do Usuario do Comentário
-	 *   @return Usuario - usuario*/
+	 *   @return {@link Usuario} - usuario
+	 * */
 
 	public Usuario getUsuario() {
 		return usuario;
 	}
 
 	/** Método para definir o Usuário do Comentário
-	 * @param usuario Usuario - Usuário*/
+	 * @param usuario {@link Usuario} - Usuário
+	 * */
 
 	public void setUsuario(final Usuario usuario) {
 		this.usuario = usuario;
@@ -124,14 +126,16 @@ public class Comentario implements Serializable {
 	}
 
 	/** Método para retorno do comentário "Pai"
-	 *   @return Comentário - pai*/
+	 *   @return {@link Comentario} - pai
+	 * */
 
 	public Comentario getPai() {
 		return pai;
 	}
 
 	/** Método para definir o "pai" do comentário
-	 * @param pai Comentario - Comentário Pai*/
+	 * @param pai {@link Comentario} - Comentário Pai
+	 * */
 
 	public void setPai(final Comentario pai) {
 		this.pai = pai;

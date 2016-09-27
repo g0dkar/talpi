@@ -103,21 +103,23 @@ public class Projeto implements Serializable {
 	}
 
 	/** Método para setar id
-	 * @param positivo long - Negativos*/
+	 * @param id long*/
 
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
 	/** Método para retorno do usuário criador do Projeto
-	 *   @return Usuario - criador*/
+	 *   @return {@link Usuario} - criador
+	 * */
 
 	public Usuario getCriador() {
 		return criador;
 	}
 
 	/** Método para setar o usuario criador do projeto
-	 * @param criado Usuario - Negativos*/
+	 * @param criador {@link Usuario}
+	 * */
 
 	public void setCriador(final Usuario criador) {
 		this.criador = criador;
@@ -133,7 +135,9 @@ public class Projeto implements Serializable {
 	/** Método para setar o Instant de criação
 	 * @param timestampCriacao Instant - Instant com a criação do Projeto*/
 
-	public void setTimestampCriacao(final Instant timestampCriacao)
+	public void setTimestampCriacao(final Instant timestampCriacao) {
+		this.timestampCriacao = timestampCriacao;
+	}
 
 	/** Método para retorno do Nome
 	 *   @return String - nome*/
@@ -164,14 +168,16 @@ public class Projeto implements Serializable {
 	}
 
 	/**  Método para retornar a lista de requisitos do projetos
-	 * @return List<Requisito> - requisitos*/
+	 * @return {@link List} - requisitos
+	 * */
 
 	public List<Requisito> getRequisitos() {
 		return requisitos;
 	}
 
 	/** Método para definir a lista de requisitos do projeto
-	 * @param requisitos List<Requisito> - Lista com os requisitos de um projeto */
+	 * @param requisitos {@link List} - Lista com os requisitos de um projeto 
+	 * */
 
 	public void setRequisitos(final List<Requisito> requisitos) {
 		this.requisitos = requisitos;
@@ -185,7 +191,8 @@ public class Projeto implements Serializable {
 	}
 
 	/** Método para definir o estado do projeto
-	 * @param estado Estado - estado do projeto */
+	 * @param estado {@link Estado} - estado do projeto 
+	 * */
 
 	public void setEstado(final Estado estado) {
 		this.estado = estado;
@@ -206,14 +213,16 @@ public class Projeto implements Serializable {
 	}
 
 	/** Método para retornar os usuários do projeto
-	 * @return List<UsuarioProjeto>  - descricao*/
+	 * @return {@link List}  - descricao
+	 * */
 
 	public List<UsuarioProjeto> getUsuarios() {
 		return usuarios;
 	}
 
 	/** Método definir a lista de usuários do Projeto
-	 * @param usuarios List<UsuarioProjeto> - usuarios do Projeto*/
+	 * @param usuarios {@link List} - usuarios do Projeto
+	 * */
 
 	public void setUsuarios(final List<UsuarioProjeto> usuarios) {
 		this.usuarios = usuarios;

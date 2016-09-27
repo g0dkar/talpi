@@ -69,7 +69,8 @@ public class Usuario implements Serializable {
 
 	/** Método para ser executado antes do objeto ser persistido
 	 * neste metódo o timestamp de criação é definido com o Instant atual
-	 * ou seja, o Instant.now()*/
+	 * ou seja, o Instant.now()
+	 * */
 	
 	@PrePersist
 	public void beforeSave() {
@@ -77,21 +78,24 @@ public class Usuario implements Serializable {
 	}
 
 	/** Método para retorno do Id
-	 *   @return long - id*/
+	*   @return long - id
+	* */
 
 	public Long getId() {
 		return id;
 	}
 
 	/** Método para setar id
-	 * @param positivo long - Negativos*/
+	 * 	@param id long
+	 * */
 
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
 	/** Método para retorno do Nome
-	 *   @return String - nome*/
+ 	*  	@return String - nome
+ 	* */
 
 	public String getNome() {
 		return nome;
@@ -105,7 +109,8 @@ public class Usuario implements Serializable {
 	}
 
 	/** Método para retorno do Email
-	 *   @return String - email*/
+	 *  @return String - email
+	 **/
 
 	public String getEmail() {
 		return email;

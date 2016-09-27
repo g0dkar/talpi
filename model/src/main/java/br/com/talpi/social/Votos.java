@@ -78,7 +78,8 @@ public class Votos implements Serializable {
 	}
 
 	/** Método para setar o votos Positivos
-	 * @param positivo long - Positivos*/
+	 * @param positivos long - Positivos
+	 * */
 
 	public void setPositivos(final long positivos) {
 		this.positivos = positivos;

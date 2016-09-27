@@ -109,35 +109,40 @@ public class Tarefa implements Serializable {
 	}
 
 	/** Método para setar id
-	 * @param positivo long - Negativos*/
+	 * @param id long 
+	 * */
 
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
 	/** Método para retorno do Requisito
-	 *   @return Requisito - requisito*/
+	 *   @return {@link Requisito} - requisito
+	 * */
 
 	public Requisito getRequisito() {
 		return requisito;
 	}
 
 	/** Método para setar o Requisito
-	 * @param requisito Requisito - Requisito*/
+	 * @param requisito {@link Requisito} - Requisito
+	 * */
 
 	public void setRequisito(final Requisito requisito) {
 		this.requisito = requisito;
 	}
 
     /** Método para retorno do Usuário Criador da Tarefa
-     *   @return UsuarioProjeto - criador*/
+     *   @return {@link UsuarioProjeto} - criador
+     * */
 
 	public UsuarioProjeto getCriador() {
 		return criador;
 	}
 
     /** Método para setar o Usuário Criador da Tarefa
-     * @param criador UsuarioProjeto - Requisito*/
+     * @param criador {@link UsuarioProjeto} - Requisito
+     * */
 
 	public void setCriador(final UsuarioProjeto criador) {
 		this.criador = criador;
@@ -186,14 +191,16 @@ public class Tarefa implements Serializable {
 	}
 
     /** Método para retorno do Estado da Tarefa
-     *   @return Estado - estado*/
+     *   @return {@link Estado} - estado
+     * */
 
 	public Estado getEstado() {
 		return estado;
 	}
 
     /** Método para setar o Estado da Tarefa
-     * @param estado Estado - Estado da Tarefa*/
+     * @param estado {@link Estado} - Estado da Tarefa
+     * */
 
 	public void setEstado(final Estado estado) {
 		this.estado = estado;
@@ -207,35 +214,40 @@ public class Tarefa implements Serializable {
 	}
 
     /** Método para setar o Tempo Trabalhado na Tarefa
-     * @param tempoTrabalhado loong - Tempo Trabalhado na Tarefa*/
+     * @param tempoTrabalhado long - Tempo Trabalhado na Tarefa
+     * */
 
 	public void setTempoTrabalhado(final long tempoTrabalhado) {
 		this.tempoTrabalhado = tempoTrabalhado;
 	}
 
     /** Método para retorno dos Comentários
-     *   @return Comentarios - comemtnarios*/
+     *   @return {@link Comentarios} - comentários
+     * */
 
 	public Comentarios getComentarios() {
 		return comentarios;
 	}
 
     /** Método para setar os Comentáarios da Tarefa
-     * @param comentarios Comentarios - Comentários da Tarefa*/
+     * @param comentarios {@link Comentarios} - Comentários da Tarefa
+     * */
 
 	public void setComentarios(final Comentarios comentarios) {
 		this.comentarios = comentarios;
 	}
 
     /** Método para retorno dos Votos
-     *   @return Votos - votos*/
+     *   @return {@link Votos} - votos
+     * */
 
 	public Votos getVotos() {
 		return votos;
 	}
 
     /** Método para setar os Votos
-     * @param votos Votos - Votos da Tarefa*/
+     * @param votos {@link Votos} - Votos da Tarefa
+     * */
 
 	public void setVotos(final Votos votos) {
 		this.votos = votos;

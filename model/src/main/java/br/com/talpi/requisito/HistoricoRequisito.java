@@ -83,35 +83,40 @@ public class HistoricoRequisito implements Serializable {
 	}
 
 	/** Método para setar id
-	 * @param positivo long - Negativos*/
+	 * @param id long
+	 * */
 
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
 	/** Método para retorno do Requisito
-	 *   @return Requisito - requisito*/
+	 *   @return {@link Requisito} - requisito
+	 * */
 
 	public Requisito getRequisito() {
 		return requisito;
 	}
 
 	/** Método para setar o Requisito
-	 * @param requisito Requisito - Requisito*/
+	 * @param requisito {@link Requisito} - Requisito
+	 * */
 
 	public void setRequisito(final Requisito requisito) {
 		this.requisito = requisito;
 	}
 
 	/** Método para retorno do Usuário Criador
-	 *   @return UsuarioProjeto - criador*/
+	 *   @return {@link UsuarioProjeto} - criador
+	 * */
 
 	public UsuarioProjeto getUsuario() {
 		return usuario;
 	}
 
 	/** Método para setar o Usuário Criador
-	 * @param criador UsuarioProjeto - Requisito*/
+	 * @param usuario {@link UsuarioProjeto} - Requisito
+	 * */
 
 	public void setUsuario(final UsuarioProjeto usuario) {
 		this.usuario = usuario;

@@ -26,15 +26,13 @@ public class Estado implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-    /** Estado da instancia deste objeto do tipo EstadoEnum */
-
+    /** Estado da instancia deste objeto do tipo {@link EstadoEnum} */
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 24)
 	private EstadoEnum estado;
 
-    /** Estado da instancia anterior deste objeto do tipo EstadoEnum */
-
+    /** Estado da instancia anterior deste objeto do tipo {@link EstadoEnum} */
 	@Enumerated(EnumType.STRING)
 	@Column(length = 24)
 	private EstadoEnum estadoAnterior;
@@ -59,7 +57,8 @@ public class Estado implements Serializable {
 	}
 
     /** Método para retorno do Nome do Estado
-     *   @return EstadoEnum - estado*/
+     *   @return {@link EstadoEnum} - estado
+     * */
 
 	public EstadoEnum getEstado() {
 		return estado;
@@ -68,7 +67,7 @@ public class Estado implements Serializable {
 
     /**Método para definir o Estado,
      * neste método o timestamp do objeto também é definido, a partir do Instant.now()
-     * @param  estado EstadoEnum - Estado.
+     * @param  estado {@link EstadoEnum} - Estado.
      */
 
 	public void setEstado(final EstadoEnum estado) {
@@ -92,14 +91,16 @@ public class Estado implements Serializable {
 	}
 
     /** Método para retorno do Estado Anterior
-     *   @return estadoEnum - estadoAnterior*/
+     *   @return {@link EstadoEnum} - estadoAnterior
+     * */
 
 	public EstadoEnum getEstadoAnterior() {
 		return estadoAnterior;
 	}
 
     /** Método para definir o estado anterior
-     * @param estadoAnterior EstadoEnum - Estado Anterior*/
+     * @param estadoAnterior {@link EstadoEnum} - Estado Anterior
+     * */
 
 	public void setEstadoAnterior(final EstadoEnum estadoAnterior) {
 		this.estadoAnterior = estadoAnterior;

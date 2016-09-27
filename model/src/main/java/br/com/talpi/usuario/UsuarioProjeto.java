@@ -68,7 +68,8 @@ public class UsuarioProjeto implements Serializable {
 
 	/** Método para ser executado antes do objeto ser persistido
 	 * neste metódo o timestamp de criação é definido com o Instant atual
-	 * ou seja, o Instant.now()*/
+	 * ou seja, o Instant.now()
+	 * */
 
 	@PrePersist
 	public void beforeSave() {
@@ -76,35 +77,40 @@ public class UsuarioProjeto implements Serializable {
 	}
 
 	/** Método para retorno do Id
-	 *   @return long - id*/
+	 *   @return long - id
+	 * */
 
 	public Long getId() {
 		return id;
 	}
 
 	/** Método para setar id
-	 * @param positivo long - Negativos*/
+	 * @param id long
+	 * */
 
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
 	/** Método para retorno do usuário criador do Projeto
-	 *   @return Usuario - criador*/
+	 *   @return {@link Usuario} - criador
+	 * */
 
 	public Usuario getCriador() {
 		return criador;
 	}
 
 	/** Método para setar o usuario criador do projeto
-	 * @param criado Usuario - Negativos*/
+	 * @param criador {@link Usuario}
+	 * */
 
 	public void setCriador(final Usuario criador) {
 		this.criador = criador;
 	}
 
 	/** Método para retorno do Instant de criação
-	 *   @return Instant - timestampCriacao*/
+	 *   @return Instant - timestampCriacao
+	 * */
 
 	public Instant getTimestampCriacao() {
 		return timestampCriacao;
@@ -118,42 +124,48 @@ public class UsuarioProjeto implements Serializable {
 	}
 
 	/** Método para retorno do Usuario
-	 *   @return Usuario - usuario*/
+	 *   @return {@link Usuario} - usuario
+	 * */
 
 	public Usuario getUsuario() {
 		return usuario;
 	}
 
 	/** Método para setar o Usuario
-	 * @param usuario Usuario - Usuario*/
+	 * @param usuario {@link Usuario} - Usuario
+	 * */
 
 	public void setUsuario(final Usuario usuario) {
 		this.usuario = usuario;
 	}
 
 	/** Método para retorno do Projeto
-	 *   @return Projeto - projeto*/
+	 *  @return {@link Projeto} - projeto
+	 */
 
 	public Projeto getProjeto() {
 		return projeto;
 	}
 
 	/** Método para setar o Projeto
-	 * @param projeto Projeto - Projeto*/
+	 * @param projeto {@link Projeto} - Projeto
+	 * */
 
 	public void setProjeto(final Projeto projeto) {
 		this.projeto = projeto;
 	}
 
 	/** Método para retorno do Papel do Usuário no Projeto
-	 *   @return PapelUsuarioProjetoEnum - papel*/
+	 *   @return {@link PapelUsuarioProjetoEnum} - papel
+	 * */
 
 	public PapelUsuarioProjetoEnum getPapel() {
 		return papel;
 	}
 
 	/** Método para setar o Papel do Usuário no Projeto
-	 * @param papel PapelUsuarioProjetoEnum - Papel do usuário*/
+	 * @param papel {@link PapelUsuarioProjetoEnum} - Papel do usuário
+	 * */
 
 	public void setPapel(final PapelUsuarioProjetoEnum papel) {
 		this.papel = papel;

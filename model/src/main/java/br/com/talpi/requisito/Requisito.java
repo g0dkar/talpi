@@ -144,35 +144,40 @@ public class Requisito implements Serializable {
 	}
 
 	/** Método para setar id
-	 * @param positivo long - Negativos*/
+	 * @param id long
+	 * */
 
 	public void setId(final Long id) {
 		this.id = id;
 	}
 
 	/** Método para retornar o Projeto
-	 * @return Projeto - projeto */
+	 * @return {@link Projeto} - projeto 
+	 * */
 
 	public Projeto getProjeto() {
 		return projeto;
 	}
 
 	/** Método para definir o Projeto
-	 * @param projeto Projeto - projeto em que o requisito pertence */
+	 * @param projeto {@link Projeto} - projeto em que o requisito pertence 
+	 * */
 
 	public void setProjeto(final Projeto projeto) {
 		this.projeto = projeto;
 	}
 
 	/** Método para retornar o Usuario criado do Requisito
-	 * @return UsuarioProjeto criador*/
+	 * @return {@link UsuarioProjeto} criador
+	 * */
 
 	public UsuarioProjeto getCriador() {
 		return criador;
 	}
 
 	/** Método para definir o Usuario criador do Projeto
-	 * @param criador UsuarioProjeto - Usuario criador do Projeto*/
+	 * @param criador {@link UsuarioProjeto} - Usuario criador do Projeto
+	 * */
 
 	public void setCriador(final UsuarioProjeto criador) {
 		this.criador = criador;
@@ -193,42 +198,48 @@ public class Requisito implements Serializable {
 	}
 
 	/** Método para retornar a ultima alteração nos requisitos do Projeto
-	 * @return HistoricoRequisito - ultimaAlteração */
+	 * @return {@link HistoricoRequisito} - ultimaAlteração 
+	 * */
 
 	public HistoricoRequisito getUltimaAlteracao() {
 		return ultimaAlteracao;
 	}
 
 	/** Método para definir a ultima alteração nos requisitos do Projeto
-	 * @param ultimaAlteracao HistoricoRequisito - ultima alteração nos requisitos do Projeto*/
+	 * @param ultimaAlteracao {@link HistoricoRequisito} - ultima alteração nos requisitos do Projeto
+	 * */
 
 	public void setUltimaAlteracao(final HistoricoRequisito ultimaAlteracao) {
 		this.ultimaAlteracao = ultimaAlteracao;
 	}
 
 	/** Método para retornar os comentários relacioandos ao projeto
-	 * @return Comentarios - comentarios */
+	 * @return {@link Comentarios} - comentarios 
+	 * */
 
 	public Comentarios getComentarios() {
 		return comentarios;
 	}
 
 	/** Método para definir os comentarios relacionados ao projeto
-	 * @param comentarios Comentarios - comentarios do projeto */
+	 * @param comentarios {@link Comentarios} - comentarios do projeto 
+	 * */
 
 	public void setComentarios(final Comentarios comentarios) {
 		this.comentarios = comentarios;
 	}
 
 	/** Método para retornar o vostos no Projeto
-	 * @return Votos - votos */
+	 * @return {@link Votos} - votos 
+	 * */
 
 	public Votos getVotos() {
 		return votos;
 	}
 
 	/** Método para definir os votos do projeto
-	 * @param votos Votos - votos no projeto */
+	 * @param votos {@link Votos} - votos no projeto 
+	 * */
 
 	public void setVotos(final Votos votos) {
 		this.votos = votos;
@@ -277,28 +288,32 @@ public class Requisito implements Serializable {
 	}
 
 	/** Método para retornar as tarefas do Requisito
-	 * @return List<Tarefa> - Tarefas do Requisito */
+	 * @return {@link List} - Tarefas do Requisito 
+	 * */
 
 	public List<Tarefa> getTarefas() {
 		return tarefas;
 	}
 
 	/** Método para definir as tarefas do requisito
-	 * @param tarefas List<Tarefa> - Tarefas do Requisitos */
+	 * @param tarefas {@link List} - Tarefas do Requisitos 
+	 * */
 
 	public void setTarefas(final List<Tarefa> tarefas) {
 		this.tarefas = tarefas;
 	}
 
 	/** Método para retornar o historico do requisito
-	 * @return List<HistoricoRequisito> - historico*/
+	 * @return {@link List} - historico
+	 * */
 
 	public List<HistoricoRequisito> getHistorico() {
 		return historico;
 	}
 
 	/** Método para definir o historico do requisito
-	 * @param historico List<HistoricoRequisito> - Historico do Requisito*/
+	 * @param historico {@link List} - Historico do Requisito
+	 * */
 
 	public void setHistorico(final List<HistoricoRequisito> historico) {
 		this.historico = historico;
