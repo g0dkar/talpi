@@ -1,0 +1,29 @@
+<md-dialog flex="35">
+	<md-toolbar>
+	    <div class="md-toolbar-tools">
+	    	<h2>Novos membros</h2>
+	    </div>
+    </md-toolbar>
+	<md-dialog-content layout="column" layout-align="start center" class="dialog-content">
+		<md-input-container class="input-container">
+			<label>Pesquisar</label>
+			<input type="text" name="name" ng-model="vm.project.nome"/><md-icon style="color: #aaaaaa">search</md-icon>
+		</md-input-container>
+		<div class="users" layout="row" layout-align="start center" layout-fill>
+			<md-list layout-fill>
+				<md-list-item class="md-2-line" ng-repeat="user in vm.users" flex="100">
+		          <img src="../../dist/img/person-icon.png" class="md-avatar" alt="user photo" />
+		          <div class="md-list-item-text">
+		            <h3>{{ user.nome }}</h3>
+		            <p>{{ user.email }}</p>
+		          </div>
+		          <md-checkbox class="md-secondary" ng-click="vm.check(user)"></md-checkbox>
+		        </md-list-item>
+	        </md-list>
+		</div>
+	</md-dialog-content>
+	<md-dialog-actions>
+		<md-button ng-click="vm.cancel()">Cancelar</md-button>
+		<md-button class="md-primary" ng-click="vm.save()">Adicionar</md-button>
+	</md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,69 @@
+<main ng-cloak layout-padding>
+
+  <div layout="row" layout-align="end center" layout-fill ng-show="vm.editMode">
+    <md-button ng-show="vm.editMode" ng-click="vm.reset()">
+      Cancelar
+    </md-button>
+    <md-button ng-show="vm.editMode" class="md-primary" ng-click="vm.save()">
+      Confirmar
+    </md-button>
+  </div>
+
+  <md-content class="steps" layout="row" layout-align="start start">
+    <md-card class="member-card" ng-class="{deleted: member.deleted}" flex="30" ng-repeat="member in vm.members">
+			<md-card-title>
+ 				<md-card-title-text>
+        		<span class="md-headline">{{ member.usuario.nome }}</span>
+            <span class="md-role" ng-show="!vm.editMode">{{ member.papel | role }}</span>
+            <span class="md-subhead">{{ member.usuario.email }}</span>
+ 	 			</md-card-title-text>
+				<md-card-title-media>
+  				<div class="md-media-sm card-media">
+  					<img src="../../dist/img/person-icon.png">
+  				</div>
+				</md-card-title-media>
+			</md-card-title>
+   		<md-card-actions layout="row" layout-align="space-between center" ng-show="vm.editMode">
+        <md-select class="member-select" ng-model="member.papel">
+          <md-option ng-repeat="role in vm.roles" ng-value="role">
+            {{ role | role }}
+          </md-option>
+        </md-select>
+	      <md-button class="md-icon-button" ng-show="!member.deleted" ng-click="vm.remove(member)">
+	        <md-icon>delete</md-icon>
+	      </md-button>
+        <md-button class="md-icon-button" ng-show="member.deleted" ng-click="vm.remove(member)">
+          <md-icon>close</md-icon>
+        </md-button>
+    	</md-card-actions>
+    </md-card>
+	</md-content>
+
+  <div layout="row" layout-align="end center" layout-fill ng-show="vm.editMode">
+    <md-button ng-show="vm.editMode" ng-click="vm.reset()">
+      Cancelar
+    </md-button>
+    <md-button ng-show="vm.editMode" class="md-primary" ng-click="vm.save()">
+      Confirmar
+    </md-button>
+  </div>
+
+  <md-fab-speed-dial class="float-button" md-open="vm.isOpen" md-direction="up" ng-class="'md-fling'">
+    <md-fab-trigger>
+      <md-button aria-label="menu" class="md-fab">
+        <md-tooltip md-direction="left">Menu</md-tooltip>
+        <md-icon>menu</md-icon>
+      </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+      <md-button aria-label="Adicionar" class="md-fab md-raised md-mini bgGray" ng-click="vm.add($event)">
+        <md-tooltip md-direction="left">Adicionar</md-tooltip>
+        <md-icon aria-label="Adicionar" class="cwhite">add</md-icon>
+      </md-button>
+      <md-button aria-label="Editar" class="md-fab md-raised md-mini bgGray" ng-click="vm.edit()">
+        <md-tooltip md-direction="left">Editar</md-tooltip>
+        <md-icon aria-label="Editar" class="cwhite">mode_edit</md-icon>
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
+</main>
