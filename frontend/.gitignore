@@ -4,6 +4,7 @@ bower_components
 
 # IDE's
 .idea
+*.vscode
 
 # Arquivos auto-gerados
 dist
