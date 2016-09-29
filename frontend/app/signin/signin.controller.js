@@ -4,10 +4,10 @@
 
 	angular
 		.module('talpi')
-		.controller('LoginCtrl', LoginCtrl);
+		.controller('SignInCtrl', SignInCtrl);
 
-	LoginCtrl.$inject = ['$rootScope', '$state', '$cookieStore', 'authService'];
-	function LoginCtrl($rootScope, $state, $cookieStore, authService) {
+	SignInCtrl.$inject = ['$rootScope', '$state', '$cookieStore', 'authService'];
+	function SignInCtrl($rootScope, $state, $cookieStore, authService) {
 
 		var vm = this;
 
@@ -26,7 +26,7 @@
 					$cookieStore.put('globals', response.data);
 					$rootScope.globals = response.data;
 					vm.loading = false;
-					$state.go('project_list');
+					$state.go('projects');
 				}
 			}, function(err) {
 				console.error('Erro na requisição');

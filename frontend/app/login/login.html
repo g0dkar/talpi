@@ -1,5 +1,7 @@
-<form>
-	<input type="text" name="email" ng-model="vm.user.email" />
-	<input type="password" name="pass" ng-model="vm.user.senha" />
-	<button ng-click="vm.auth()">Login</button>
-</form>
+<main id="main-container" layout="column" layout-align="center center" ng-cloak layout-fill>
+	<div layout="row" layout-align="center center" layout-wrap>
+		<div ui-view="register"></div>
+		<div ui-view="sign-in"></div>
+	</div>
+</main>
+

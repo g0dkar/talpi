@@ -1,0 +1,25 @@
+<md-content id="wrapper" layout="column">
+	<md-card class="box" md-whiteframe="3" layout="column" layout-align="start center">
+		<div class="login-loader" ng-show="vm.loading" layout="column" layout-align="center center" layout-fill>
+			<md-progress-circular md-mode="indeterminate" layout-fill></md-progress-circular>
+		</div>
+		<div ng-show="!vm.loading" layout-fill>
+			<md-card-title>
+				<md-card-title-text layout-align="center center">
+					<span class="md-headline">Acesse!</span>
+				</md-card-title-text>
+			</md-card-title>
+			<md-card-content layout="column" layout-align="center center" layout-fill>
+				<md-input-container class="input-container">
+					<label>Email</label>
+					<input type="email" name="email" ng-model="vm.user.email"/>
+				</md-input-container>
+				<md-input-container class="input-container">
+					<label>Senha</label>
+					<input type="password" name="pass" ng-model="vm.user.senha"/>
+				</md-input-container>
+				<md-button ng-click="vm.auth()" class="md-raised md-primary w100 access">Entrar</md-button>
+			</md-card-content>
+		</div>
+	</md-card>
+</md-content>
