@@ -1,10 +1,169 @@
-.loginBox {
-    max-width:  90%;
-    width: 500px;
-    margin: auto auto;
+.logo {
+	width: 95px;
 }
 
-.stretch input  {
-    width: 100%
+.logo-marca {
+	width: 150px;
 }
 
+.access {
+	margin-top: 22px;
+}
+
+.login-toolbar {
+	position: absolute;
+	top: 0;
+}
+
+.welcome {
+	font-size: 15px;
+}
+
+.title {
+	margin-left: 13px;
+}
+
+.container {
+	max-width: 90%;
+	margin: 10px auto 0;
+}
+
+.icon {
+	margin: auto 0;
+}
+
+.icon.small {
+	font-size: 15px;
+}
+
+.icon.middle {
+	font-size: 25px;
+}
+
+.icon.big {
+	font-size: 35px;
+}
+
+.card-image {
+	width: 60px;
+}
+
+.project-name {
+	font-size: 35px;
+}
+
+.project-name > span {
+	margin: 0 20px;
+}
+
+.project-card {
+	min-width: 300px !important;
+	max-width: 385px !important;
+}
+
+.box {
+	min-width: 500px;
+	min-height: 340px;
+	padding: 10px;
+}
+
+.login-loader {
+	min-height: 320px;
+}
+
+.steps {
+	overflow: auto;
+}
+
+.step {
+	min-width: 300px !important;
+	min-height: 392px !important;
+}
+
+.step .md-headline {
+	font-size: 20px;
+}
+
+.step span {
+	font-size: 15px;
+}
+
+.input-container {
+	width: 100%;
+	margin: 0;
+}
+
+.dialog-content {
+	padding: 20px;
+}
+
+.md-button {
+	height: 45px;
+}
+
+.float-button {
+	position: fixed; 
+	bottom: 5px; 
+	right: 5px;
+}
+
+button.float-button {
+	background: rgb(255,64,129);
+}
+
+.w100 {
+	width: 100%;
+}
+
+.h100 {
+	height: 100%;
+}
+
+.cwhite, .cwhite span {
+	color: white;
+}
+
+.bgGray {
+	background: #9E9E9E;
+}
+
+.deleted {
+	background: #E0E0E0;
+}
+
+.check {
+	color: #4CAF50;
+}
+
+.md-role {
+	font-size: 16px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.54);
+}
+
+.users {
+	max-height: 310px !important;
+	overflow: auto !important;
+}
+
+.member-select {
+    margin-left: 12px;
+}
+
+.member-card {
+	min-height: 155px !important;
+}
+
+/** Subscribed */
+
+.md-nav-bar {
+	border-color: transparent !important;
+}
+
+.navigation {
+	padding-bottom: 15px;
+}
+
+.navigation.md-primary {
+	background: rgb(63,81,181);
+}
