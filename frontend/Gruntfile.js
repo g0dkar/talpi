@@ -75,12 +75,12 @@ module.exports = function(grunt) {
 		},
 		
 		imagemin: {
-			dynamic: {										// Another target
+			dynamic: {											// Another target
 				files: [{
-					expand: true,							// Enable dynamic expansion
-					cwd: "<%= path.src %>/share/img/",		// src matches are relative to this path
-					src: ["**/*.{png,jpg,gif}"],			// Actual patterns to match
-					dest: "<%= path.dest %>/img/"			// Destination path prefix
+					expand: true,								// Enable dynamic expansion
+					cwd: "<%= path.src %>/shared/assets/img/",	// src matches are relative to this path
+					src: ["**/*.{png,jpg,gif}"],				// Actual patterns to match
+					dest: "<%= path.dest %>/img/"				// Destination path prefix
 				}]
 			}
 		},
@@ -95,7 +95,7 @@ module.exports = function(grunt) {
 				tasks: ["concat:css", "cssnano"]
 			},
 			img: {
-				files: "<%= path.src %>/img/**/*.{png,jpg,gif}",
+				files: "<%= path.src %>/shared/assets/img/*.{png,jpg,gif}",
 				tasks: ["imagemin"]
 			}
 		},
