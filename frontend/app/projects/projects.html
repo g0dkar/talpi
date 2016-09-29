@@ -1,0 +1,35 @@
+<main class="container" ng-cloak>
+    <h2 class="title">Projetos</h2>
+    <md-content layout="row" layout-wrap layout-margin>
+        <md-card class="project-card" ng-repeat="project in vm.projects" flex 
+            ui-sref="project({id : project.id})">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{project.nome}}</span>
+                    <span class="md-subhead">{{project.descricao}}</span>
+                </md-card-title-text>
+                <md-card-title-media>
+                    <div class="md-media-sm card-media" layout="row" layout-align="center center">
+                        <img class="card-image" ng-show="project.congelado" src="../../dist/img/lock-icon.png" />
+                        <img class="card-image" ng-show="!project.congelado" src="../../dist/img/unlock-icon.png" />
+                    </div>
+                </md-card-title-media>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-icon-button">
+                    <md-icon class="material-icons">timeline</md-icon>
+                </md-button>
+                <md-button class="md-icon-button">
+                    <md-icon class="material-icons">group</md-icon>
+                </md-button>
+                <md-button class="md-icon-button">
+                    <md-icon class="material-icons">settings</md-icon>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </md-content>
+    <md-button id="add_btn" class="md-fab md-hue-2 float-button" aria-label="Add project" ng-click="vm.add($event)">
+        <md-tooltip md-direction="left">Adicionar</md-tooltip>
+        <md-icon class="material-icons">add</md-icon>
+    </md-button>
+</main>

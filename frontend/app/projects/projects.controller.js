@@ -4,20 +4,25 @@
 
 	angular
 		.module('talpi')
-		.controller('ProjectListCtrl', ProjectListCtrl);
+		.controller('ProjectsCtrl', ProjectsCtrl);
 
-	ProjectListCtrl.$inject = ['projectService', '$state', '$cookieStore', '$rootScope'];
-	function ProjectListCtrl(projectService, $state, $cookieStore, $rootScope) {
+	ProjectsCtrl.$inject = ['projectService', '$state', '$cookieStore', '$rootScope', '$mdDialog'];
+	function ProjectsCtrl(projectService, $state, $cookieStore, $rootScope, $mdDialog) {
 
 		var vm = this;
 
-		vm.init = init;
 		vm.loading = false;
 		vm.project = {};
 		vm.projects = [];
+		vm.add = add;
+		vm.hide = hide;
 		vm.save = save;
 
-		function init() {
+		activate();
+
+		/////////////////////
+
+		function activate() {
 			vm.loading = true;
 			projectService.getAll().then(function(response) {
 				vm.projects = response.data;
@@ -29,7 +34,25 @@
 			});
 		}
 
+		function add(ev) {
+			$mdDialog.show({
+				templateUrl: 'app/projects-add/projects-add.html',
+				controller: 'ProjectsAddCtrl',
+				controllerAs: 'vm',
+				targetEvent: ev,
+				clickOutsideToClose: true
+			}).then(function(project) {
+				vm.project = project;
+				vm.save();
+			});
+		}
+
+		function hide() {
+			$mdDialog.hide();
+		}
+
 		function save() {
+			vm.hide();
 			vm.loading = true;
 			projectService.post(vm.project).then(function(response) {
 				if(angular.isArray(response.data)) {
