@@ -1,0 +1,25 @@
+<main ng-cloak layout-padding ng-cloak>
+	<div class="steps" layout="row" layout-align="start start" layout-margin layout-wrap>
+		<md-card class="step" flex>
+			<md-card-title>
+				<md-card-title-text layout="row" layout-align="center center">
+	                <span class="md-headline">{{req.titulo}}</span>
+	            </md-card-title-text>
+			</md-card-title>
+			<md-card-content>
+				<md-list>
+					<md-list-item class="secondary-button-padding" ng-click="vm.detail(req, $event)"  
+						ng-repeat="req in vm.requirements">
+    					<span>{{req.titulo}}</span>	
+  					</md-list-item>
+				</md-list>
+			</md-card-content>
+		</md-card>
+	</div>
+
+	<md-button id="add_btn" class="md-fab md-hue-2 float-button" aria-label="Add requirement" 
+		ng-click="vm.add($event)">
+		<md-tooltip md-direction="left">Adicionar</md-tooltip>
+        <md-icon class="material-icons">add</md-icon>
+    </md-button>
+</main>

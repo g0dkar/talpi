@@ -1,0 +1,21 @@
+<md-dialog flex="35">
+	<md-toolbar>
+	    <div class="md-toolbar-tools">
+	    	<h2>Novo requisito</h2>
+	    </div>
+    </md-toolbar>
+	<md-dialog-content layout="column" layout-align="start center" class="dialog-content">
+		<md-input-container class="input-container">
+			<label>Título</label>
+			<input type="text" name="name" ng-model="vm.requirement.titulo"/>
+		</md-input-container>
+		<md-input-container class="input-container">
+			<label>Descrição</label>
+			<textarea name="description" ng-model="vm.requirement.descricao" md-maxlength="150"></textarea>
+		</md-input-container class="input-container">
+	</md-dialog-content>
+	<md-dialog-actions>
+		<md-button ng-click="vm.cancel()">Cancelar</md-button>
+		<md-button class="md-primary" ng-click="vm.save()">Salvar</md-button>
+	</md-dialog-actions>
+</md-dialog>

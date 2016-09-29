@@ -1,0 +1,26 @@
+<md-dialog flex="35">
+	<md-toolbar>
+	    <div class="md-toolbar-tools">
+	    	<h2>Detalhes</h2>
+	    </div>
+    </md-toolbar>
+	<md-dialog-content layout="column" layout-align="start center" class="dialog-content">
+		<div layout="row" layout-fill>
+			<md-input-container class="input-container" flex="85">
+				<label>Título</label>
+				<input type="text" name="name" ng-model="vm.requirement.titulo"/>
+			</md-input-container>
+			<div class="input-container" flex layout="row" layout-align="end center">
+				<md-icon>warning</md-icon>
+			</div>
+		</div>
+		<md-input-container class="input-container">
+			<label>Descrição</label>
+			<textarea name="description" ng-model="vm.requirement.descricao" md-maxlength="150"></textarea>
+		</md-input-container class="input-container">
+	</md-dialog-content>
+	<md-dialog-actions>
+		<md-button ng-click="vm.cancel()">Cancelar</md-button>
+		<md-button class="md-primary" ng-click="vm.save()">Salvar</md-button>
+	</md-dialog-actions>
+</md-dialog>
