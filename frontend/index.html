@@ -8,14 +8,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="dist/css/vendor.css">
 <link rel="stylesheet" href="dist/css/talpi.css">
 <script src="dist/js/vendor.js"></script>
 <script src="dist/js/talpi.js"></script>
 </head>
-<body>
-
-	<div style="" ui-view></div>
+<body flex>
+	<md-toolbar ng-show="globals">
+    	<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+      		<div class="logo">
+      			<a href="#"><img class="logo" src="../../dist/img/talpi.png"/></a>
+      		</div>
+      		<div class="settings">
+        		<span class="welcome">Olá, {{globals.nome}}</span>
+    			<md-menu md-position-mode="target-right target">
+        			<md-button aria-label="Menu button" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+       		 			<md-icon md-menu-origin>keyboard_arrow_down</md-icon>
+      				</md-button>
+      				<md-menu-content width="4">
+        				<md-menu-item>
+          					<md-button>
+              					<div layout="row" flex>
+                					<p flex>Perfil</p>
+                					<md-icon class="icon">person</md-icon>
+              					</div>
+          					</md-button>
+        				</md-menu-item>
+        				<md-menu-item>
+          					<md-button ng-click="logout()">
+              					<div layout="row" flex>
+                					<p flex>Sair</p>
+                					<md-icon class="icon">exit_to_app</md-icon>
+              					</div>
+          					</md-button>
+        				</md-menu-item>
+      				</md-menu-content>
+        		</md-menu>
+      		</div>
+    	</div>
+	</md-toolbar>
+	<div layout-fill ui-view></div>
 </body>
 </html>
