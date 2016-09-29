@@ -1,6 +1,9 @@
 package br.com.talpi.backend.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -45,6 +48,31 @@ public class UsuarioController {
 			response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 			response.setHeader("Access-Control-Allow-Credentials", "true");
 		}
+	}
+	
+	@Get("/lista")
+	public void listar(String q, Long pid) {
+		final Query query;
+		
+		if (q != null && q.trim().length() > 0) {
+			if (pid != null && pid > 0) {
+				query = ps.createQuery("FROM Usuario WHERE id NOT IN (SELECT usuario FROM UsuarioProjeto WHERE projeto.id = :pid) AND (email LIKE :q OR nome LIKE :q) ORDER BY nome ASC").setParameter("q", "%" + q + "%").setParameter("pid", pid);
+			}
+			else {
+				query = ps.createQuery("FROM Usuario WHERE email LIKE :q OR nome LIKE :q ORDER BY nome ASC").setParameter("q", "%" + q + "%");
+			}
+		}
+		else {
+			if (pid != null && pid > 0) {
+				query = ps.createQuery("FROM Usuario WHERE id NOT IN (SELECT usuario FROM UsuarioProjeto WHERE projeto.id = :pid) ORDER BY nome ASC").setParameter("pid", pid);
+			}
+			else {
+				query = ps.createQuery("FROM Usuario ORDER BY nome ASC");
+			}
+		}
+		
+		final List<Usuario> usuarios = query.setMaxResults(25).getResultList();
+		result.use(Results.json()).withoutRoot().from(usuarios).serialize();
 	}
 	
 	@Get("/check")
@@ -106,10 +134,10 @@ public class UsuarioController {
 				final boolean emailExiste;
 				
 				if (usuario.getId() == null) {
-					emailExiste = ((Number) ps.createQuery("SELECT count(*) FROM Usuario WHERE LOWER(email) = LOWER(:email)").setParameter("email", usuario.getEmail().trim()).getSingleResult()).intValue() == 0;
+					emailExiste = ((Number) ps.createQuery("SELECT count(*) FROM Usuario WHERE LOWER(email) = LOWER(:email)").setParameter("email", usuario.getEmail().trim()).getSingleResult()).intValue() != 0;
 				}
 				else {
-					emailExiste = ((Number) ps.createQuery("SELECT count(*) FROM Usuario WHERE id <> :id AND LOWER(email) = LOWER(:email)").setParameter("id", usuario.getId()).setParameter("email", usuario.getEmail().trim()).getSingleResult()).intValue() == 0;
+					emailExiste = ((Number) ps.createQuery("SELECT count(*) FROM Usuario WHERE id <> :id AND LOWER(email) = LOWER(:email)").setParameter("id", usuario.getId()).setParameter("email", usuario.getEmail().trim()).getSingleResult()).intValue() != 0;
 				}
 				
 				if (emailExiste) {
@@ -163,6 +191,7 @@ public class UsuarioController {
 		}
 		
 		if (validator.hasErrors()) {
+			usuarioLogado.set(null);
 			validator.onErrorUse(Results.json()).withoutRoot().from(validator.getErrors()).serialize();
 		}
 	}

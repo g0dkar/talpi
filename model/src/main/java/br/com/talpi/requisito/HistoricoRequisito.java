@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -74,7 +75,14 @@ public class HistoricoRequisito implements Serializable {
 	@NotBlank
 	@Column(nullable = false, length = 2048)
 	private String comprovacao;
-
+	
+	@PrePersist
+	public void beforeSave() {
+		if (timestamp == null) {
+			timestamp = Instant.now();
+		}
+	}
+	
 	/** Método para retorno do Id
 	 *   @return long - id*/
 

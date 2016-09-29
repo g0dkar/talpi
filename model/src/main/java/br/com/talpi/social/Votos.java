@@ -41,6 +41,8 @@ public class Votos implements Serializable {
 	@Column(nullable = false)
 	private boolean alerta;
 	
+	private String motivoAlerta;
+	
 	@Column(nullable = false)
 	private boolean alertaAutomatico;
 	
@@ -96,5 +98,29 @@ public class Votos implements Serializable {
 
 	public void setNegativos(final long negativos) {
 		this.negativos = negativos;
+	}
+
+	public boolean isAlerta() {
+		return alerta;
+	}
+
+	public void setAlerta(boolean alerta) {
+		this.alerta = alerta;
+	}
+
+	public String getMotivoAlerta() {
+		return motivoAlerta;
+	}
+
+	public void setMotivoAlerta(String motivoAlerta) {
+		this.motivoAlerta = motivoAlerta;
+	}
+
+	public boolean isAlertaAutomatico() {
+		return alertaAutomatico;
+	}
+
+	public void setAlertaAutomatico(boolean alertaAutomatico) {
+		this.alertaAutomatico = alertaAutomatico;
 	}
 }

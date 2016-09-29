@@ -1,5 +1,6 @@
 package br.com.talpi.backend.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +46,7 @@ public class ProjetoController {
 	private final Validator validator;
 	private final PersistenceService ps;
 	private final UsuarioLogado usuarioLogado;
+	private final HttpServletRequest request;
 	
 	/** @deprecated CDI */ @Deprecated
 	ProjetoController() { this(null, null, null, null, null, null, null); }
@@ -56,6 +58,7 @@ public class ProjetoController {
 		this.validator = validator;
 		this.ps = ps;
 		this.usuarioLogado = usuarioLogado;
+		this.request = request;
 
 		if (response != null) {
 			response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
@@ -68,7 +71,7 @@ public class ProjetoController {
 	 * @return {@link Projeto} especificado pelo {@code id} desde que ele pertença ao usuário logado atualmente ou o usuário logado seja {@link PapelUsuarioProjetoEnum#PM Project Manager} no projeto
 	 */
 	private Projeto get(final Long id) {
-		return (Projeto) ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE (p.criador = :criador OR (up.id = :criador AND up.papel = :enumPM)) AND p.id = :id").setParameter("criador", usuarioLogado.get()).setParameter("enumPM", PapelUsuarioProjetoEnum.PM).setParameter("id", id).getSingleResult();
+		return (Projeto) ps.createQuery("SELECT DISTINCT p FROM Projeto p JOIN p.usuarios up WHERE (p.criador = :criador OR up.id = :criador) AND p.id = :id").setParameter("criador", usuarioLogado.get()).setParameter("id", id).getSingleResult();
 	}
 	
 	/**
@@ -83,7 +86,7 @@ public class ProjetoController {
 	public void projetos(final Integer pagina, final Integer itens) {
 		final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 10;
 		final int offset = pagina == null ? 0 : pagina * resultados;
-		final List<Projeto> projetos = ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE p.criador = :criador OR (up.id = :criador AND up.papel = :enumPM)").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get()).setParameter("enumPM", PapelUsuarioProjetoEnum.PM).getResultList();
+		final List<Projeto> projetos = ps.createQuery("SELECT DISTINCT p FROM Projeto p JOIN p.usuarios up WHERE p.criador = :criador OR up.id = :criador").setMaxResults(resultados).setFirstResult(offset).setParameter("criador", usuarioLogado.get()).getResultList();
 		result.use(Results.json()).withoutRoot().from(projetos).serialize();
 	}
 	
@@ -99,7 +102,7 @@ public class ProjetoController {
 		final Projeto projeto = get(id);
 		
 		if (projeto != null) {
-			result.use(Results.json()).withoutRoot().from(projeto).include("estado").serialize();
+			result.use(Results.json()).withoutRoot().from(projeto).include("criador", "estado", "usuarios", "usuarios.usuario").serialize();
 		}
 		else {
 			result.notFound();
@@ -197,17 +200,21 @@ public class ProjetoController {
 	@Transactional
 	@Post("/{id:\\d+}/membros")
 	@Consumes({ "application/json", "application/x-www-form-urlencoded" })
-	public void membros(final Long id, final List<UsuarioProjeto> membros) {
+	public void membros(Long id, final List<UsuarioProjeto> membros) {
+//		Long id = Long.parseLong(request.getParameter("id"));
+		
 		if (id != null) {
 			Projeto projeto = get(id);
 			
 			if (projeto != null) {
-				if (!contemUsuario(membros, projeto.getCriador())) {
-					final UsuarioProjeto usuarioProjeto = new UsuarioProjeto();
-					usuarioProjeto.setPapel(PapelUsuarioProjetoEnum.PM);
-					usuarioProjeto.setUsuario(usuarioLogado.get());
-					membros.add(usuarioProjeto);
-				}
+				ps.createQuery("DELETE FROM UsuarioProjeto WHERE projeto = :projeto").setParameter("projeto", projeto).executeUpdate();
+//				
+//				if (!contemUsuario(membros, projeto.getCriador())) {
+//					final UsuarioProjeto usuarioProjeto = new UsuarioProjeto();
+//					usuarioProjeto.setPapel(PapelUsuarioProjetoEnum.PM);
+//					usuarioProjeto.setUsuario(usuarioLogado.get());
+//					membros.add(usuarioProjeto);
+//				}
 				
 				for (final Iterator<UsuarioProjeto> iterator = membros.iterator(); iterator.hasNext();) {
 					final UsuarioProjeto usuarioProjeto = iterator.next();
@@ -216,19 +223,38 @@ public class ProjetoController {
 						usuarioProjeto.setCriador(usuarioLogado.get());
 						usuarioProjeto.setProjeto(projeto);
 						usuarioProjeto.setUsuario(ps.find(Usuario.class, usuarioProjeto.getUsuario().getId()));
+						usuarioProjeto.setTimestampCriacao(Instant.now());
+						
+						try {
+							if (usuarioProjeto.getId() == null) {
+								ps.persist(usuarioProjeto);
+							}
+							else {
+								ps.merge(usuarioProjeto);
+							}
+						} catch (final Exception e) {
+							log.error("Erro ao modificar membros do projeto", e);
+							validator.add(new I18nMessage("error", "erro.projeto.erroMembros"));
+						}
 					}
 					else {
 						iterator.remove();
 					}
 				}
 				
-				projeto.setUsuarios(membros);
-				try {
-					projeto = ps.merge(projeto);
-					result.use(Results.json()).withoutRoot().from(projeto).include("estado").serialize();
-				} catch (final Exception e) {
-					log.error("Erro ao modificar membros do projeto", e);
-					validator.add(new I18nMessage("error", "erro.projeto.erroMembros"));
+//				projeto.setUsuarios(membros);
+//				try {
+//					projeto = ps.merge(projeto);
+////					ps.persist(membros);
+////					result.use(Results.json()).withoutRoot().from(projeto).include("estado").serialize();
+//					result.forwardTo(UsuarioController.class).listar(null, projeto.getId());
+//				} catch (final Exception e) {
+//					log.error("Erro ao modificar membros do projeto", e);
+//					validator.add(new I18nMessage("error", "erro.projeto.erroMembros"));
+//				}
+				
+				if (!validator.hasErrors()) {
+					result.forwardTo(this).projeto(projeto.getId());
 				}
 			}
 			else {
@@ -249,7 +275,7 @@ public class ProjetoController {
 	 */
 	private boolean contemUsuario(final List<UsuarioProjeto> membros, final Usuario criador) {
 		for (final UsuarioProjeto usuarioProjeto : membros) {
-			if (usuarioProjeto.getId().equals(criador.getId())) {
+			if (usuarioProjeto.getId() != null && usuarioProjeto.getId().equals(criador.getId())) {
 				return true;
 			}
 		}

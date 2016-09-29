@@ -83,7 +83,7 @@ public class Projeto implements Serializable {
 	
 	@NotEmpty
 	@Size(min = 1)
-	@OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<UsuarioProjeto> usuarios;
 
 	/** Método para ser executado antes do objeto ser persistido
@@ -133,7 +133,9 @@ public class Projeto implements Serializable {
 	/** Método para setar o Instant de criação
 	 * @param timestampCriacao Instant - Instant com a criação do Projeto*/
 
-	public void setTimestampCriacao(final Instant timestampCriacao)
+	public void setTimestampCriacao(final Instant timestampCriacao) {
+		this.timestampCriacao = timestampCriacao;
+	}
 
 	/** Método para retorno do Nome
 	 *   @return String - nome*/
