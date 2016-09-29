@@ -16,14 +16,26 @@
 		$stateProvider
 			.state('login', {
 				url: '/login',
-				templateUrl: 'app/login/login.html',
-				controller: 'LoginCtrl',
-				controllerAs: 'vm'
+				views: {
+					'': {
+						templateUrl: 'app/login/login.html'
+					},
+					'register@login': {
+						templateUrl: 'app/register/register.html',
+						controller: 'RegisterCtrl',
+						controllerAs: 'vm'
+					},
+					'sign-in@login': {
+						templateUrl: 'app/signin/signin.html',
+						controller: 'SignInCtrl',
+						controllerAs: 'vm'
+					}
+				}
 			})
-			.state('project_list', {
+			.state('projects', {
 				url: '/projects',
-				templateUrl: 'app/project-list/project-list.html',
-				controller: 'ProjectListCtrl',
+				templateUrl: 'app/projects/projects.html',
+				controller: 'ProjectsCtrl',
 				controllerAs: 'vm'
 			})
 			.state('project', {
@@ -33,22 +45,22 @@
 				controller: 'ProjectCtrl',
 				controllerAs: 'vm'
 			})
-			.state('project.frame', {
-				url: '/frame',
-				templateUrl: 'app/project-frame/project-frame.html',
-				controller: 'ProjectFrameCtrl',
+			.state('project.requirement', {
+				url: '/requirements',
+				templateUrl: 'app/requirements/requirements.html',
+				controller: 'RequirementCtrl',
 				controllerAs: 'vm'
 			})
 			.state('project.config', {
 				url: '/config',
-				templateUrl: 'app/project-config/project-config.html',
-				controller: 'ProjectConfigCtrl',
+				templateUrl: 'app/config/config.html',
+				controller: 'ConfigCtrl',
 				controllerAs: 'vm'
 			})
 			.state('project.members', {
 				url: '/members',
-				templateUrl: 'app/project-members/project-members.html',
-				controller: 'ProjectMembersCtrl',
+				templateUrl: 'app/members/members.html',
+				controller: 'MembersCtrl',
 				controllerAs: 'vm'
 			});
 
