@@ -11,32 +11,28 @@
 
 		var vm = this;
 
-		vm.init = init;
 		vm.loading = false;
 		vm.project = null;
 
-		function init() {
+		activate();
+
+		/////////////////////
+
+		function activate() {
 			vm.loading = true;
-			if(!$stateParams.project) {
-				projectService.get($stateParams.id).then(function(response) {
-					$cookieStore.put('project', response.data);
-					$rootScope.project = response.data;
-					vm.project = response.data;
-					vm.loading = false;
-				}, function(err) {
-					console.error('Erro na requisição');
-					//TODO treat request error
-					vm.loading = false;
-					$state.go('project_list');
-					return;
-				});
-			} else {
-				$cookieStore.put('project', $stateParams.project);
-				$rootScope.project = $stateParams.project;
-				vm.project = $stateParams.project;
+			projectService.get($stateParams.id).then(function(response) {
+				$cookieStore.put('project', response.data);
+				$rootScope.project = response.data;
+				vm.project = response.data;
 				vm.loading = false;
-			}
-			$state.go('project.frame');
+			}, function(err) {
+				console.error('Erro na requisição');
+				//TODO treat request error
+				vm.loading = false;
+				$state.go('projects');
+				return;
+			});
+			$state.go('project.requirement');
 		};
 
 	};

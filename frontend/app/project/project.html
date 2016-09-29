@@ -1,10 +1,21 @@
 
-<div ng-init="vm.init()">
-    <h1>{{vm.project.nome}}</h1>
-</div>
-<ul>
-    <li><a href="#/project/{{vm.project.id}}/frame">Quadro</a></li>
-    <li><a href="#/project/{{vm.project.id}}/config">Configurações</a></li>
-    <li><a href="#/project/{{vm.project.id}}/members">Membros</a></li>
-</ul>
+<main>
+	<md-toolbar class="md-tall">
+    	<div class="md-toolbar-tools" layout="column" layout-align="start center" layout-fill>
+    		<div class="project-name" layout="row" layout-align="center center" layout-fill>
+    			<span>{{project.nome}}</span>
+    			<md-icon class="icon moddle" ng-show="!vm.project.congelado">lock_open</md-icon>
+    			<md-icon class="icon middle" ng-show="vm.project.congelado">lock_outline</md-icon>
+    		</div>
+    	</div>
+	</md-toolbar>
+	<div class="navigation md-primary" layout="row" layout-align="start center">
+		<md-nav-bar nav-bar-aria-label="navigation links">
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{vm.project.id}}/requirements">Requisitos</md-nav-item>
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{vm.project.id}}/members">Membros</md-nav-item>
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{vm.project.id}}/config">Configuração</md-nav-item>
+			<md-nav-item class="cwhite" md-nav-href="#">Relatórios</md-nav-item>
+		</md-nav-bar>
+	</div>
+</main>
 <div ui-view></div>
