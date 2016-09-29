@@ -6,8 +6,8 @@
 		.module('talpi')
 		.factory('projectService', projectService);
 
-	projectService.$inject = ['API_URL', '$http'];
-	function projectService(API_URL, $http) {
+	projectService.$inject = ['API_URL', '$http', '$rootScope'];
+	function projectService(API_URL, $http, $rootScope) {
 
 		var service = {};
 
@@ -41,8 +41,8 @@
 
 		};
 
-		function addMembros(id, entity) {
-			return $http.post(API_URL + '/projeto/' + id + '/membros', entity);
+		function addMembros(entity) {
+			return $http.post(API_URL + '/projeto/' + $rootScope.project.id + '/membros', { membros: entity });
 		}
 	};
 

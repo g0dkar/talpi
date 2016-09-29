@@ -28,7 +28,7 @@
 		};
 
 		function post(entity) {
-			return $http.post(API_URL + '/requisito/' + $rootScope.project.id + '/editar', entity);
+			return $http.post(API_URL + '/requisito/' + $rootScope.project.id + '/editar', { requisito: entity, comprovacao: "http://localhost", justificativa: "Xpto" });
 		};
 
 		function put(id, entity) {

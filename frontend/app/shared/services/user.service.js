@@ -20,7 +20,7 @@
 		return service;
 
 		function getAll() {
-			return $http.get(API_URL + '/usuario/perfil/');
+			return $http.get(API_URL + '/usuario/lista?pid=' + $rootScope.project.id);
 		};
 
 		function get(id) {
@@ -28,7 +28,7 @@
 		};
 
 		function post(entity) {
-			return $http.post(API_URL + '/usuario/perfil/', entity);
+			return $http.post(API_URL + '/usuario/perfil', entity);
 		};
 
 		function put(id, entity) {
