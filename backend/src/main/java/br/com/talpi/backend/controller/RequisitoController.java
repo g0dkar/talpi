@@ -1,5 +1,6 @@
 package br.com.talpi.backend.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +151,7 @@ public class RequisitoController {
 	@Transactional
 	@Post("/editar")
 	@Consumes({ "application/json", "application/x-www-form-urlencoded" })
-	public void editar(final Long pid, Requisito requisito) {
+	public void editar(final Long pid, Requisito requisito, String justificativa, String comprovacao) {
 		final Projeto projeto = getProjeto(pid);
 		
 		if (projeto != null) {
@@ -161,16 +162,20 @@ public class RequisitoController {
 				final UsuarioProjeto up = getUsuarioProjetoAtual(projeto);
 				
 				if (up != null && up.getPapel().equals(PapelUsuarioProjetoEnum.PM)) {
-					if (requisito.getUltimaAlteracao() != null) {
-						requisito.getUltimaAlteracao().setRequisito(requisito);
-						requisito.getUltimaAlteracao().setId(null);
-						requisito.getUltimaAlteracao().setUsuario(up);
-					}
-					
 					// Novo
 					if (requisito.getId() == null) {
 						final List<HistoricoRequisito> historico = new ArrayList<>(1);
-						historico.add(requisito.getUltimaAlteracao());
+						
+						HistoricoRequisito historicoCriacao = new HistoricoRequisito();
+						historicoCriacao.setComprovacao(comprovacao);
+						historicoCriacao.setJustificativa(justificativa == null ? "Criação do Requisito" : justificativa);
+						historicoCriacao.setUsuario(up);
+						historicoCriacao.setRequisito(requisito);
+						historicoCriacao.setTimestamp(Instant.now());
+						historicoCriacao.setDescricao(requisito.getDescricao());
+						historicoCriacao.setTitulo(requisito.getTitulo());
+						
+						historico.add(historicoCriacao);
 						
 						requisito.setProjeto(projeto);
 						requisito.setComentarios(new Comentarios());
@@ -200,7 +205,15 @@ public class RequisitoController {
 							requisito.setCriador(requisitoBanco.getCriador());
 							requisito.setTarefas(requisitoBanco.getTarefas());
 							
-							requisito.getHistorico().add(requisito.getUltimaAlteracao());
+							HistoricoRequisito historicoAlteracao = new HistoricoRequisito();
+							historicoAlteracao.setDescricao(requisito.getDescricao());
+							historicoAlteracao.setTitulo(requisito.getTitulo());
+							historicoAlteracao.setComprovacao(comprovacao);
+							historicoAlteracao.setJustificativa(justificativa);
+							historicoAlteracao.setUsuario(up);
+							historicoAlteracao.setRequisito(requisito);
+							historicoAlteracao.setTimestamp(Instant.now());
+							requisito.getHistorico().add(historicoAlteracao);
 							
 							if (!validator.validate(requisito).hasErrors()) {
 								try {

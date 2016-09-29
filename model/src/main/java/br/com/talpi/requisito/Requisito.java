@@ -58,13 +58,6 @@ public class Requisito implements Serializable {
 	@Column(nullable = false)
 	private Instant timestampCriacao;
 
-	/** Historico com a ultima alteração no requisito */
-	
-	@Valid
-	@NotNull
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	private HistoricoRequisito ultimaAlteracao;
-
 	/** Estado em que o requisito se encontra */
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -109,7 +102,7 @@ public class Requisito implements Serializable {
 	@Valid
 	@NotEmpty
 	@OrderBy("timestamp DESC")
-	@OneToMany(mappedBy = "requisito", orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "requisito", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<HistoricoRequisito> historico;
 	
 	@PrePersist
@@ -124,7 +117,7 @@ public class Requisito implements Serializable {
 	public void beforeUpdate() {
 		if (historico.size() > 1) {
 			// Nosso Índice de Risco é a quantidade de mudanças divida pela idade do requisito em dias
-			indiceRisco = historico.size() / ((ultimaAlteracao.getTimestamp().getEpochSecond() - timestampCriacao.getEpochSecond()) / 86400);
+			indiceRisco = historico.size() / ((historico.get(historico.size() - 1).getTimestamp().getEpochSecond() - timestampCriacao.getEpochSecond()) / 86400);
 		}
 		
 		if (comentarios == null) {
@@ -190,20 +183,6 @@ public class Requisito implements Serializable {
 
 	public void setTimestampCriacao(final Instant timestampCriacao) {
 		this.timestampCriacao = timestampCriacao;
-	}
-
-	/** Método para retornar a ultima alteração nos requisitos do Projeto
-	 * @return HistoricoRequisito - ultimaAlteração */
-
-	public HistoricoRequisito getUltimaAlteracao() {
-		return ultimaAlteracao;
-	}
-
-	/** Método para definir a ultima alteração nos requisitos do Projeto
-	 * @param ultimaAlteracao HistoricoRequisito - ultima alteração nos requisitos do Projeto*/
-
-	public void setUltimaAlteracao(final HistoricoRequisito ultimaAlteracao) {
-		this.ultimaAlteracao = ultimaAlteracao;
 	}
 
 	/** Método para retornar os comentários relacioandos ao projeto

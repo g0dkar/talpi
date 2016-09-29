@@ -71,7 +71,7 @@ public class ProjetoController {
 	 * @return {@link Projeto} especificado pelo {@code id} desde que ele pertença ao usuário logado atualmente ou o usuário logado seja {@link PapelUsuarioProjetoEnum#PM Project Manager} no projeto
 	 */
 	private Projeto get(final Long id) {
-		return (Projeto) ps.createQuery("SELECT DISTINCT p FROM Projeto p JOIN p.usuarios up WHERE (p.criador = :criador OR up.id = :criador) AND p.id = :id").setParameter("criador", usuarioLogado.get()).setParameter("id", id).getSingleResult();
+		return (Projeto) ps.createQuery("SELECT p FROM Projeto p JOIN p.usuarios up WHERE (p.criador = :criador OR up.id = :criador) AND p.id = :id").setParameter("criador", usuarioLogado.get()).setParameter("id", id).getSingleResult();
 	}
 	
 	/**
@@ -220,18 +220,14 @@ public class ProjetoController {
 					final UsuarioProjeto usuarioProjeto = iterator.next();
 					
 					if (usuarioProjeto.getPapel() != null) {
+						usuarioProjeto.setId(null);
 						usuarioProjeto.setCriador(usuarioLogado.get());
 						usuarioProjeto.setProjeto(projeto);
 						usuarioProjeto.setUsuario(ps.find(Usuario.class, usuarioProjeto.getUsuario().getId()));
 						usuarioProjeto.setTimestampCriacao(Instant.now());
 						
 						try {
-							if (usuarioProjeto.getId() == null) {
-								ps.persist(usuarioProjeto);
-							}
-							else {
-								ps.merge(usuarioProjeto);
-							}
+							ps.persist(usuarioProjeto);
 						} catch (final Exception e) {
 							log.error("Erro ao modificar membros do projeto", e);
 							validator.add(new I18nMessage("error", "erro.projeto.erroMembros"));

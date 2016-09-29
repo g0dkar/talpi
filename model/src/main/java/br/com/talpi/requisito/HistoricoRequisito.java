@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -81,6 +82,15 @@ public class HistoricoRequisito implements Serializable {
 		if (timestamp == null) {
 			timestamp = Instant.now();
 		}
+		
+		titulo = requisito.getTitulo();
+		descricao = requisito.getDescricao();
+	}
+	
+	@PreUpdate
+	public void beforeUpdate() {
+		titulo = requisito.getTitulo();
+		descricao = requisito.getDescricao();
 	}
 	
 	/** Método para retorno do Id
@@ -165,5 +175,21 @@ public class HistoricoRequisito implements Serializable {
 
 	public void setComprovacao(final String comprovacao) {
 		this.comprovacao = comprovacao;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getJustificativa() {
+		return justificativa;
+	}
+
+	public void setJustificativa(String justificativa) {
+		this.justificativa = justificativa;
 	}
 }

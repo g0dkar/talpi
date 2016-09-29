@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 /**Classe para objetos do tipo Estado, onde serão contidos, valores e métodos para o mesmo.
@@ -43,6 +44,11 @@ public class Estado implements Serializable {
 
 	@Column(nullable = false)
 	private Instant timestamp;
+	
+	@PrePersist
+	public void beforeSave() {
+		timestamp = Instant.now();
+	}
 
     /** Método para retorno do Id do Estado
      *   @return Long - id*/
