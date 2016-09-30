@@ -6,8 +6,8 @@
 		.module('talpi')
 		.controller('RequirementCtrl', RequirementCtrl);
 
-	RequirementCtrl.$inject = ['requirementService', 'taskService', '$mdDialog'];
-	function RequirementCtrl(requirementService, taskService, $mdDialog) {
+	RequirementCtrl.$inject = ['requirementService', 'taskService', '$mdDialog', '$rootScope'];
+	function RequirementCtrl(requirementService, taskService, $mdDialog, $rootScope) {
 
 		var vm = this;
 
@@ -17,8 +17,6 @@
 
 		vm.add = add;
 		vm.detail = detail;
-		vm.verify = verify;
-		vm.changeState = changeState;
 		vm.save = save;
 
 		activate();
@@ -96,23 +94,6 @@
 				//TODO treat request error
 				vm.loading = false;	
 			});
-		}
-
-		function changeState(req) {
-			vm.requirement = req;
-			vm.requirement.estado.estado = vm.verify(vm.requirement);
-			vm.save();
-		}
-
-		function verify(requirement) {
-			switch(requirement.estado.estado) {
-				case 'CRIADO':
-					return 'INICIADO';
-				case 'INICIADO':
-					return 'PRONTO_HOMOLOGACAO';
-				case 'PRONTO_HOMOLOGACAO':
-					return 'CONCLUIDO';
-			}
 		}
 	};
 
