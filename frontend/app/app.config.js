@@ -45,12 +45,30 @@
 				controller: 'ProjectCtrl',
 				controllerAs: 'vm'
 			})
-			.state('project.requirement', {
+			.state('project.requirements', {
 				url: '/requirements',
 				templateUrl: 'app/requirements/requirements.html',
 				controller: 'RequirementCtrl',
 				controllerAs: 'vm'
 			})
+			.state('project.requirement', {
+				url: '/requirement/:req/tasks',
+				templateUrl: 'app/requirements-detail/requirements-detail.html',
+				controller: 'RequirementsDetailCtrl',
+				controllerAs: 'vm'
+			})
+			.state('project.requirement-comments', {
+				url: '/requirement/:req/comments',
+				templateUrl: 'app/requirement-comment/requirement-comment.html',
+				controller: 'RequirementCommentsCtrl',
+				controllerAs: 'vm'
+			})
+			/*.state('project.requirement-config', {
+				url: '/requirement/:req/config',
+				templateUrl: 'app/requirement-config/requirement-config.html',
+				controller: 'RequirementCommentsCtrl',
+				controllerAs: 'vm'
+			})*/
 			.state('project.config', {
 				url: '/config',
 				templateUrl: 'app/config/config.html',
