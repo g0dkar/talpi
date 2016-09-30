@@ -37,7 +37,7 @@
 }
 
 .icon.middle {
-	font-size: 25px;
+	font-size: 28px;
 }
 
 .icon.big {
@@ -69,10 +69,6 @@
 
 .login-loader {
 	min-height: 320px;
-}
-
-.steps {
-	overflow: auto;
 }
 
 .step {
@@ -142,6 +138,7 @@ button.float-button {
 }
 
 .users {
+	min-height: 310px !important;
 	max-height: 310px !important;
 	overflow: auto !important;
 }
@@ -153,6 +150,78 @@ button.float-button {
 .member-card {
 	min-height: 155px !important;
 }
+
+.requirement-card {
+	min-width: 300px;
+}
+
+.md-req {
+	background: #4CAF50 !important;
+}
+
+.act-btn {
+	min-width: 10px !important;
+	min-height: 10px !important;
+}
+
+.change-btn {
+	margin-top: -10px;
+    margin-right: 0;
+}
+
+
+/** States */
+
+.psd {
+	color: #9E9E9E;
+}
+
+.cri {
+	color: #9C27B0;
+}
+
+.ini {
+	color: #607D8B;
+}
+
+.p-hom {
+	color: #03A9F4;
+}
+
+.n-hom {
+	color: #FF5722;
+}
+
+.con {
+	color: #4CAF50;
+}
+
+/** Borders*/
+
+.b-psd {
+	border-left: 10px solid #9E9E9E;
+}
+
+.b-cri {
+	border-left: 10px solid #9C27B0;
+}
+
+.b-ini {
+	border-left: 10px solid #607D8B;
+}
+
+.b-p-hom {
+	border-left: 10px solid #03A9F4;
+}
+
+.b-n-hom {
+	border-left: 10px solid #FF5722;
+}
+
+.b-con {
+	border-left: 10px solid #4CAF50;
+}
+
 
 /** Subscribed */
 
@@ -166,4 +235,8 @@ button.float-button {
 
 .navigation.md-primary {
 	background: rgb(63,81,181);
+}
+
+.navigation.md-req {
+	background: #4CAF50 !important;
 }
