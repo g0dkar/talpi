@@ -23,8 +23,12 @@
 			return $q(function(resolve, reject) {
 				switch(type) {
 					case 'task':
+						if($rootScope.taskVotes[id] === undefined) $rootScope.taskVotes[id] = [];
 						resolve({data: $rootScope.taskVotes[id]});
 					case 'requirement':
+						if($rootScope.requirementVotes[id] === undefined) $rootScope.requirementVotes[id] = [];
+						console.log('Id...', id);
+						console.log('Votes...', $rootScope.requirementVotes[id])
 						resolve({data: $rootScope.requirementVotes[id]});
 				}
 				reject('Informe o tipo correto');
@@ -35,25 +39,27 @@
 			return $q(function(resolve, reject) {
 				switch(type) {
 					case 'task':
-						resolve({data: $rootScope.taskVotes[id][index]});
+						resolve({data: $rootScope.taskVotes[id] === undefined ? {} : $rootScope.taskVotes[id][index]});
 					case 'requirement':
-						resolve({data: $rootScope.requirementVotes[id][index]});
+						resolve({data: $rootScope.requirementVotes[id] === undefined ? {} : $rootScope.requirementVotes[id][index]});
 				}
 				reject('Informe o tipo correto');
 			});
 		};
 
-		function post(type, entity) {
+		function post(type, id, entity) {
 			return $q(function(resolve, reject) {
 				switch(type) {
 					case 'task':
-						$rootScope.taskVotes.push(entity);
+						if($rootScope.taskVotes[id] === undefined) $rootScope.taskVotes[id] = [];
+						$rootScope.taskVotes[id].push(entity);
 						$cookieStore.put('taskVotes', $rootScope.taskVotes);
-						resolve({data: entity});
+						resolve({data: $rootScope.taskVotes[id] === undefined ? [] : $rootScope.taskVotes[id]});
 					case 'requirement':
-						$rootScope.requirementVotes.push(entity);
+						if($rootScope.requirementVotes[id] === undefined) $rootScope.requirementVotes[id] = [];
+						$rootScope.requirementVotes[id].push(entity);
 						$cookieStore.put('requirementVotes', $rootScope.requirementVotes);
-						resolve({data: entity});
+						resolve({data: $rootScope.requirementVotes[id] === undefined ? [] : $rootScope.requirementVotes[id]});
 				}
 				reject('Informe o tipo correto');
 			});
@@ -67,13 +73,13 @@
 			return $q(function(resolve, reject) {
 				switch(type) {
 					case 'task':
-						$rootScope.taskVotes.splice(index, 1);
+						$rootScope.taskVotes[id].splice(index, 1);
 						$cookieStore.put('taskVotes', $rootScope.taskVotes);
-						resolve({data: $rootScope.taskVotes});
+						resolve({data: $rootScope.taskVotes[id] === undefined ? [] : $rootScope.taskVotes[id]});
 					case 'requirement':
-						$rootScope.requirementVotes.splice(index, 1);
+						$rootScope.requirementVotes[id].splice(index, 1);
 						$cookieStore.put('requirementVotes', $rootScope.requirementVotes);
-						resolve({data: $rootScope.requirementVotes});
+						resolve({data: $rootScope.requirementVotes[id] === undefined ? [] : $rootScope.requirementVotes[id]});
 				}
 				reject('Informe o tipo correto');
 			});
