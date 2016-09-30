@@ -25,6 +25,7 @@
 				$rootScope.project = response.data;
 				vm.project = response.data;
 				vm.loading = false;
+				$state.go('project.requirements');
 			}, function(err) {
 				console.error('Erro na requisição');
 				//TODO treat request error
@@ -32,7 +33,6 @@
 				$state.go('projects');
 				return;
 			});
-			$state.go('project.requirement');
 		};
 
 	};
