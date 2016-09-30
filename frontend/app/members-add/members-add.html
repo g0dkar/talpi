@@ -7,11 +7,11 @@
 	<md-dialog-content layout="column" layout-align="start center" class="dialog-content">
 		<md-input-container class="input-container">
 			<label>Pesquisar</label>
-			<input type="text" name="name" ng-model="vm.project.nome"/><md-icon style="color: #aaaaaa">search</md-icon>
+			<input type="text" name="name" ng-model="vm.filter"/><md-icon style="color: #aaaaaa">search</md-icon>
 		</md-input-container>
-		<div class="users" layout="row" layout-align="start center" layout-fill>
+		<div class="users" layout="row" layout-align="start start" layout-fill>
 			<md-list layout-fill>
-				<md-list-item class="md-2-line" ng-repeat="user in vm.users" flex="100">
+				<md-list-item class="md-2-line" ng-repeat="user in vm.users | search:vm.filter" flex="100">
 		          <img src="../../dist/img/person-icon.png" class="md-avatar" alt="user photo" />
 		          <div class="md-list-item-text">
 		            <h3>{{ user.nome }}</h3>

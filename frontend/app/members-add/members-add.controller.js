@@ -14,6 +14,7 @@
 		vm.loading = false;
 		vm.members = [];
 		vm.users = [];
+		vm.filter = '';
 
 		vm.check = check;
 		vm.save = save;
