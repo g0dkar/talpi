@@ -1,0 +1,24 @@
+<main layout-fill layout="column" layout-align="start center">
+    <md-card flex="100" ng-repeat="com in vm.comments">
+    	<md-card-title>
+			<md-card-title-text>
+                <span class="md-headline">{{ com.usuario }}</span>
+            </md-card-title-text>
+            <md-card-title-media>
+  				<div class="md-media-sm card-media">
+  					<img src="../../dist/img/person-icon.png">
+  				</div>
+			</md-card-title-media>
+		</md-card-title>
+		<md-card-content>
+			<p>{{ com.descricao }}</p>
+		</md-card-content>
+    </md-card>
+    <md-content md-whiteframe="1">
+		<md-input-container class="input-container">
+			<label>Descrição</label>
+			<textarea name="description" ng-model="vm.comment.descricao" md-maxlength="150"></textarea>
+		</md-input-container>
+		<md-button class="md-primary" ng-click="vm.save()">Comentar</md-button>
+    </md-content>
+</main>
