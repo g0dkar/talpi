@@ -39,7 +39,7 @@
 					$rootScope.project = response.data;
 					vm.project = response.data;
 					vm.loading = false;
-					$state.go('project.requirement');
+					$state.go('project.requirements');
 				}, function(err) {
 					console.error(err);
 					//TODO treat request error
