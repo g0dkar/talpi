@@ -20,15 +20,15 @@
 		return service;
 
 		function getAll(reqId) {
-			return $http.get(API_URL + '/tarefa/' + $rootScope.project.id + '/' + reqId + '/lista');
+			return $http.get(API_URL + '/tarefa/' + $rootScope.project.id + '/' + $rootScope.requirement.id + '/lista');
 		};
 
 		function get(reqId, id) {
-			return $http.get(API_URL + '/tarefa/' + $rootScope.project.id + '/' + reqId + '/' + id);
+			return $http.get(API_URL + '/tarefa/' + $rootScope.project.id + '/' + $rootScope.requirement.id + '/' + id);
 		};
 
 		function post(entity) {
-			return $http.post(API_URL + '/tarefa/' + $rootScope.project.id + '/' + reqId, entity);
+			return $http.post(API_URL + '/tarefa/' + $rootScope.project.id + '/' + $rootScope.requirement.id, { tarefa: entity });
 		};
 
 		function put(id, entity) {
