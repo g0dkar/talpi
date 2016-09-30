@@ -114,7 +114,7 @@ public class RequisitoController {
 			final int resultados = itens != null ? Math.max(Math.min(itens, 50), 5) : 20;
 			final int offset = pagina == null ? 0 : pagina * resultados;
 			final List<Requisito> requisitos = ps.createQuery("FROM Requisito WHERE projeto = :projeto").setParameter("projeto", projeto).setMaxResults(resultados).setFirstResult(offset).getResultList();
-			result.use(Results.json()).withoutRoot().from(requisitos).include("votos").serialize();
+			result.use(Results.json()).withoutRoot().from(requisitos).include("criador", "criador.usuario", "votos", "estado").serialize();
 		}
 		else {
 			result.notFound();

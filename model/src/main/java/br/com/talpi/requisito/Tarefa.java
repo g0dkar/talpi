@@ -68,7 +68,7 @@ public class Tarefa implements Serializable {
     /** Estado da Tarefa */
 	
 	@NotNull
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Estado estado;
 
     /** Comentários relacioandos a esta tarefa */
@@ -92,6 +92,8 @@ public class Tarefa implements Serializable {
 	
 	@PrePersist
 	public void beforeSave() {
+		timestamp = Instant.now();
+		
 		if (comentarios == null) {
 			comentarios = new Comentarios();
 		}
