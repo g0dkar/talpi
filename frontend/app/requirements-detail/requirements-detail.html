@@ -1,26 +1,54 @@
-<md-dialog flex="35">
-	<md-toolbar>
-	    <div class="md-toolbar-tools">
-	    	<h2>Detalhes</h2>
-	    </div>
-    </md-toolbar>
-	<md-dialog-content layout="column" layout-align="start center" class="dialog-content">
-		<div layout="row" layout-fill>
-			<md-input-container class="input-container" flex="85">
-				<label>Título</label>
-				<input type="text" name="name" ng-model="vm.requirement.titulo"/>
-			</md-input-container>
-			<div class="input-container" flex layout="row" layout-align="end center">
-				<md-icon>warning</md-icon>
-			</div>
-		</div>
-		<md-input-container class="input-container">
-			<label>Descrição</label>
-			<textarea name="description" ng-model="vm.requirement.descricao" md-maxlength="150"></textarea>
-		</md-input-container class="input-container">
-	</md-dialog-content>
-	<md-dialog-actions>
-		<md-button ng-click="vm.cancel()">Cancelar</md-button>
-		<md-button class="md-primary" ng-click="vm.save()">Salvar</md-button>
-	</md-dialog-actions>
-</md-dialog>
+<main ng-cloak layout-padding ng-cloak>
+	<md-content class="steps" layout="row" layout-align="start start">
+		<md-card class="requirement-card" ng-class="{
+						'b-cri': (task.estado.estado === 'CRIADO'), 
+						'b-ini': (task.estado.estado === 'INICIADO'), 
+						'b-p-hom': (task.estado.estado === 'PRONTO_HOMOLOGACAO'), 
+						'b-n-hom': (task.estado.estado === 'NAO_HOMOLOGADO'),
+						'b-con': (task.estado.estado === 'CONCLUIDO'), 
+						'b-psd': (task.estado.estado === 'PAUSADO')
+					}" 
+			ng-repeat="task in vm.tasks" flex="30">
+			<md-card-title layout="row" layout-align="space-between start">
+				<md-card-title-text>
+	                <span class="md-headline">{{ task.titulo }}</span>
+                 	<span class="md-subhead">{{ task.descricao }}</span>
+	            </md-card-title-text>
+	            <md-button class="act-btn change-btn" ng-click="vm.changeState(task)" ng-disabled="task.estado.estado === 'CONCLUIDO'">
+	            	<md-icon ng-class="{
+						'cri': (task.estado.estado === 'CRIADO'), 
+						'ini': (task.estado.estado === 'INICIADO'), 
+						'p-hom': (task.estado.estado === 'PRONTO_HOMOLOGACAO'), 
+						'n-hom': (task.estado.estado === 'NAO_HOMOLOGADO'),
+						'con': (task.estado.estado === 'CONCLUIDO'), 
+						'psd': (task.estado.estado === 'PAUSADO')
+					}">{{ task.estado.estado | icon }}</md-icon>
+	            </md-button>
+			</md-card-title>
+			<md-card-content>
+
+			</md-card-content>
+			<md-card-actions layout="row" layout-align="space-between center">
+				<md-button class="md-button-icon act-btn">
+					<md-icon>not_interested</md-icon>
+				</md-button>
+				<div>
+					<md-button class="md-button-icon act-btn">
+						<md-icon>thumb_up</md-icon>
+						{{ task.votos.positivos }}
+					</md-button>
+					<md-button class="md-button-icon act-btn">
+						<md-icon>thumb_down</md-icon>
+						{{ task.votos.positivos }}
+					</md-button>
+				</div>
+			</md-card-actions>
+		</md-card>
+	</md-content>
+
+	<md-button ng-show="!project.congelado" id="add_btn" class="md-fab md-hue-2 float-button" aria-label="Add task" 
+		ng-click="vm.addTask($event)">
+		<md-tooltip md-direction="left">Adicionar</md-tooltip>
+        <md-icon class="material-icons">add</md-icon>
+    </md-button>
+</main>
