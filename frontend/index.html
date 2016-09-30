@@ -15,10 +15,14 @@
 <script src="dist/js/talpi.js"></script>
 </head>
 <body flex>
-	<md-toolbar ng-show="globals">
+	<md-toolbar ng-show="globals" ng-class="{'md-req': requirement}">
     	<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
       		<div class="logo">
-      			<a href="#"><img class="logo" src="../../dist/img/talpi.png"/></a>
+      			<a href="#" ng-show="!requirement"><img class="logo" src="../../dist/img/talpi.png"/></a>
+            <md-button class="md-icon-button" ng-show="(requirement && project)" 
+              ui-sref="project.requirements">
+              <md-icon class="cwhite icon middle">arrow_back</md-icon>
+            </md-button>
       		</div>
       		<div class="settings">
         		<span class="welcome">Olá, {{globals.nome}}</span>

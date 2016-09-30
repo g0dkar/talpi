@@ -1,20 +1,35 @@
 
 <main>
-	<md-toolbar class="md-tall">
+	<md-toolbar class="md-tall" ng-class="{'md-req': requirement}">
     	<div class="md-toolbar-tools" layout="column" layout-align="start center" layout-fill>
-    		<div class="project-name" layout="row" layout-align="center center" layout-fill>
-    			<span>{{project.nome}}</span>
-    			<md-icon class="icon moddle" ng-show="!vm.project.congelado">lock_open</md-icon>
-    			<md-icon class="icon middle" ng-show="vm.project.congelado">lock_outline</md-icon>
+    		<div class="project-name" ng-show="!requirement" layout="row" layout-align="center center" layout-fill>
+    			<span>{{ project.nome.toUpperCase() }}</span>
+    			<md-icon class="icon moddle" ng-show="!project.congelado">lock_open</md-icon>
+    			<md-icon class="icon middle" ng-show="project.congelado">lock_outline</md-icon>
+    		</div>
+    		<div class="project-name" ng-show="requirement" layout="row" layout-align="center center" layout-fill>
+    			<span>{{ requirement.titulo.toUpperCase() }}</span>
     		</div>
     	</div>
 	</md-toolbar>
-	<div class="navigation md-primary" layout="row" layout-align="start center">
-		<md-nav-bar nav-bar-aria-label="navigation links">
-			<md-nav-item class="cwhite" md-nav-href="#/project/{{vm.project.id}}/requirements">Requisitos</md-nav-item>
-			<md-nav-item class="cwhite" md-nav-href="#/project/{{vm.project.id}}/members">Membros</md-nav-item>
-			<md-nav-item class="cwhite" md-nav-href="#/project/{{vm.project.id}}/config">Configuração</md-nav-item>
+	<div class="navigation md-primary" ng-class="{'md-req': requirement, 'md-primary': !requirement}" layout="row" 
+		layout-align="start center">
+		<md-nav-bar nav-bar-aria-label="navigation links" ng-show="!requirement">
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{project.id}}/requirements">Requisitos</md-nav-item>
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{project.id}}/members">Membros</md-nav-item>
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{project.id}}/config">Configuração</md-nav-item>
 			<md-nav-item class="cwhite" md-nav-href="#">Relatórios</md-nav-item>
+		</md-nav-bar>
+		<md-nav-bar nav-bar-aria-label="navigation links" ng-show="requirement">
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{project.id}}/requirement/{{requirement.id}}/tasks">
+				Tarefas
+			</md-nav-item>
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{project.id}}/requirement/{{requirement.id}}/comments">	
+				Comentários
+			</md-nav-item>
+			<md-nav-item class="cwhite" md-nav-href="#/project/{{project.id}}/requirement/{{requirement.id}}/config">	
+				Configuração
+			</md-nav-item>
 		</md-nav-bar>
 	</div>
 </main>
