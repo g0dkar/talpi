@@ -1,23 +1,42 @@
 <main ng-cloak layout-padding ng-cloak>
-	<div class="steps" layout="row" layout-align="start start" layout-margin layout-wrap>
-		<md-card class="step" flex>
+	<md-content class="steps" layout="row" layout-align="start start">
+		<md-card class="requirement-card" ng-repeat="req in vm.requirements" flex="30" 
+			ui-sref="project.requirement({req : req.id})" ng-class="{
+						'b-cri': (req.estado.estado === 'CRIADO'), 
+						'b-ini': (req.estado.estado === 'INICIADO'), 
+						'b-p-hom': (req.estado.estado === 'PRONTO_HOMOLOGACAO'), 
+						'b-n-hom': (req.estado.estado === 'NAO_HOMOLOGADO'),
+						'b-con': (req.estado.estado === 'CONCLUIDO'), 
+						'b-psd': (req.estado.estado === 'PAUSADO')
+					}" >
 			<md-card-title>
-				<md-card-title-text layout="row" layout-align="center center">
-	                <span class="md-headline">{{req.titulo}}</span>
+				<md-card-title-text>
+	                <span class="md-headline">{{ req.titulo }}</span>
+                 	<span class="md-subhead">{{ req.descricao }}</span>
 	            </md-card-title-text>
 			</md-card-title>
 			<md-card-content>
-				<md-list>
-					<md-list-item class="secondary-button-padding" ng-click="vm.detail(req, $event)"  
-						ng-repeat="req in vm.requirements">
-    					<span>{{req.titulo}}</span>	
-  					</md-list-item>
-				</md-list>
-			</md-card-content>
-		</md-card>
-	</div>
 
-	<md-button id="add_btn" class="md-fab md-hue-2 float-button" aria-label="Add requirement" 
+			</md-card-content>
+			<md-card-actions layout="row" layout-align="space-between center">
+				<md-button class="md-button-icon act-btn">
+					<md-icon>not_interested</md-icon>
+				</md-button>
+				<div>
+					<md-button class="md-button-icon act-btn">
+						<md-icon>thumb_up</md-icon>
+						{{ req.votos.positivos }}
+					</md-button>
+					<md-button class="md-button-icon act-btn">
+						<md-icon>thumb_down</md-icon>
+						{{ req.votos.positivos }}
+					</md-button>
+				</div>
+			</md-card-actions>
+		</md-card>
+	</md-content>
+
+	<md-button ng-show="!project.congelado" id="add_btn" class="md-fab md-hue-2 float-button" aria-label="Add requirement" 
 		ng-click="vm.add($event)">
 		<md-tooltip md-direction="left">Adicionar</md-tooltip>
         <md-icon class="material-icons">add</md-icon>
